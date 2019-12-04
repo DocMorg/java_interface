@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +24,8 @@ public class TodoList extends Application {
         addButton.setText("Add");
 
         TextField inputField = new TextField();
+
+        TableView tableView = new TableView();
 
         addButton.setOnAction(e -> {
             this.todos.add(inputField.getText());
