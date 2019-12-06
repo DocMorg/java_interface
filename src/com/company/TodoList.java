@@ -15,6 +15,11 @@ public class TodoList extends Application {
 
     private ObservableList<String> list;
 
+    public static void main(String[] args) {
+
+        Application.launch(args);
+    }
+
     @Override public void start(Stage stage) {
         this.list = FXCollections.observableArrayList();
         ListView<String> listView = new ListView<>(this.list);
@@ -24,10 +29,7 @@ public class TodoList extends Application {
         Button addButton = new Button();
         addButton.setText("Add");
 
-
-        ObservableList<Todos> todos = FXCollections.observableArrayList(
-                new Todos("dsadsa", "lalallala")
-        );
+        ObservableList<Todos> todos = FXCollections.observableArrayList();
 
         TableView<Todos> table = new TableView<Todos>(todos);
         table.setPrefWidth(235);
@@ -38,18 +40,17 @@ public class TodoList extends Application {
         table.getColumns().add(nameColumn);
 
         TableColumn<Todos, String> timeColumn = new TableColumn<Todos,String>("Date");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         table.getColumns().add(timeColumn);
 
         TableColumn<Todos, String> descrColumn = new TableColumn<Todos,String>("Description");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descrColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         table.getColumns().add(descrColumn);
 
         TextField inputField = new TextField();
 
         addButton.setOnAction(e -> {
             todos.addAll(FXCollections.observableArrayList(new Todos(inputField.getText())));
-            System.out.println(todos);
             this.list.add(inputField.getText());
             inputField.setText("");
             inputField.requestFocus();
@@ -63,7 +64,15 @@ public class TodoList extends Application {
 
         removeButton.setOnAction(e -> {
             final int idToRemove = listView.getSelectionModel().getSelectedIndex();
-            listView.getItems().remove(idToRemove);
+            final int idToRemove1 = table.getSelectionModel().getSelectedIndex();
+            if (idToRemove1 == -1){
+                listView.getItems().remove(idToRemove);
+                table.getItems().remove(idToRemove);
+            }
+            else {
+                listView.getItems().remove(idToRemove1);
+                table.getItems().remove(idToRemove1);
+            }
         });
 
         HBox entryBox = new HBox();
@@ -71,10 +80,6 @@ public class TodoList extends Application {
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(listView, table, entryBox);
-
-
-//        TableColumn<addedToDos, String> nameColumn = new TableColumn<Person, String>("Name");
-
 
         Scene scene = new Scene(vbox);
         stage.setScene(scene);
