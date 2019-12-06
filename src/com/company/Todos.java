@@ -6,17 +6,17 @@ import java.time.format.DateTimeFormatter;
 
 public class Todos {
     private String name;
-    private String time;
+    private String date;
     private String description;
 
     public Todos(){
         this.name = "";
-        this.time = "";
+        this.date = "";
         this.description = "";
     }
-    public Todos(String name, String time, String description) {
+    public Todos(String name, String date, String description) {
         this.name = name;
-        this.time = time;
+        this.date = date;
         this.description = description;
     }
 
@@ -24,7 +24,7 @@ public class Todos {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         this.name = name;
-        this.time = dateFormat.format(tomorrow);
+        this.date = dateFormat.format(tomorrow);
         this.description = "";
     }
 
@@ -32,7 +32,7 @@ public class Todos {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         this.name = name;
-        this.time = dateFormat.format(tomorrow);
+        this.date = dateFormat.format(tomorrow);
         this.description = description;
     }
 

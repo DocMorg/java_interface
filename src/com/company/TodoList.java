@@ -18,23 +18,38 @@ public class TodoList extends Application {
     @Override public void start(Stage stage) {
         this.list = FXCollections.observableArrayList();
         ListView<String> listView = new ListView<>(this.list);
-        listView.setPrefWidth(250);
+        listView.setPrefWidth(235);
         listView.setPrefHeight(200);
 
         Button addButton = new Button();
         addButton.setText("Add");
 
-        TableView tableView = new TableView();
-        tableView.setPrefWidth(250);
-        tableView.setPrefHeight(200);
-        TableColumn<Todos, String> nameColumn = new TableColumn<Todos, String>("Name");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Todos, String>("name"));
-//        ObservableList<String> addedToDos = listView.getItems();
+
+        ObservableList<Todos> todos = FXCollections.observableArrayList(
+                new Todos("dsadsa", "lalallala")
+        );
+
+        TableView<Todos> table = new TableView<Todos>(todos);
+        table.setPrefWidth(235);
+        table.setPrefHeight(200);
+
+        TableColumn<Todos, String> nameColumn = new TableColumn<Todos,String>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        table.getColumns().add(nameColumn);
+
+        TableColumn<Todos, String> timeColumn = new TableColumn<Todos,String>("Date");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        table.getColumns().add(timeColumn);
+
+        TableColumn<Todos, String> descrColumn = new TableColumn<Todos,String>("Description");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        table.getColumns().add(descrColumn);
 
         TextField inputField = new TextField();
 
         addButton.setOnAction(e -> {
-            Todos todos = new Todos(inputField.getText());
+            todos.addAll(FXCollections.observableArrayList(new Todos(inputField.getText())));
+            System.out.println(todos);
             this.list.add(inputField.getText());
             inputField.setText("");
             inputField.requestFocus();
@@ -55,7 +70,7 @@ public class TodoList extends Application {
         entryBox.getChildren().addAll(inputField, addButton, removeButton);
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(listView, tableView, entryBox);
+        vbox.getChildren().addAll(listView, table, entryBox);
 
 
 //        TableColumn<addedToDos, String> nameColumn = new TableColumn<Person, String>("Name");
