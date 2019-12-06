@@ -4,31 +4,38 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class TodoList extends Application {
 
-    private ObservableList<String> todos;
+    private ObservableList<String> list;
 
     @Override public void start(Stage stage) {
-        this.todos = FXCollections.observableArrayList();
-        ListView<String> listView = new ListView<>(this.todos);
+        this.list = FXCollections.observableArrayList();
+        ListView<String> listView = new ListView<>(this.list);
+        listView.setPrefWidth(250);
+        listView.setPrefHeight(200);
 
         Button addButton = new Button();
         addButton.setText("Add");
 
+        TableView tableView = new TableView();
+        tableView.setPrefWidth(250);
+        tableView.setPrefHeight(200);
+        TableColumn<Todos, String> nameColumn = new TableColumn<Todos, String>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Todos, String>("name"));
+//        ObservableList<String> addedToDos = listView.getItems();
+
         TextField inputField = new TextField();
 
-        TableView tableView = new TableView();
-
         addButton.setOnAction(e -> {
-            this.todos.add(inputField.getText());
+            Todos todos = new Todos(inputField.getText());
+            this.list.add(inputField.getText());
             inputField.setText("");
             inputField.requestFocus();
         });
@@ -48,7 +55,11 @@ public class TodoList extends Application {
         entryBox.getChildren().addAll(inputField, addButton, removeButton);
 
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(listView, entryBox);
+        vbox.getChildren().addAll(listView, tableView, entryBox);
+
+
+//        TableColumn<addedToDos, String> nameColumn = new TableColumn<Person, String>("Name");
+
 
         Scene scene = new Scene(vbox);
         stage.setScene(scene);
