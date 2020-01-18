@@ -14,8 +14,16 @@ public class Todos {
         return name.get();
     }
 
+    public StringProperty nameProperty() {
+        return name;
+    }
+
     public void setName(String value){
         name.set(value);
+    }
+
+    public StringProperty dateProperty() {
+        return date;
     }
 
     public String getDate(){
@@ -28,6 +36,10 @@ public class Todos {
 
     public String getDescription(){
         return description.get();
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
     }
 
     public void setDescription(String value){
