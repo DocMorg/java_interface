@@ -1,0 +1,182 @@
+@startuml
+
+Todos *---- TodoList
+Bindings <|-- TodoList
+FXCollections <|-- TodoList
+TableView <|-- TodoList
+Scene <|-- TodoList
+Button <|-- TodoList
+ObservableList <|-- TableView
+ObservableList <|-- TodoList
+LocalDate <|-- Todos
+DateTimeFormatter <|-- Todos
+SimpleStringProperty <|-- Todos
+
+class DateTimeFormatter{
+    public static DateTimeFormatter ofPattern(String pattern)
+    public static DateTimeFormatter ofPattern(String pattern, Locale locale)
+}
+
+class PropertyValueFactory<S, T> implements Callback, CellDataFeatures, ObservableValue{
+    private final String property;
+    private Class<?> columnClass;
+    private String previousProperty;
+    private PropertyReference<T> propertyRef;
+    public PropertyValueFactory(@NamedArg("property") String property)
+    public ObservableValue<T> call(CellDataFeatures<S, T> param)
+    public final String getProperty()
+    private ObservableValue<T> getCellDataReflectively(S rowData)
+}
+
+class TableView<S> {
+    private final ObservableList<TableColumn<S, ?>> columns;
+    static final String SET_CONTENT_WIDTH
+}
+
+class CellDataFeatures<S, T> {
+    private final TableView<S> tableView;
+    private final TableColumn<S, T> tableColumn;
+    private final S val
+    public CellDataFeatures(TableView<S> tableView, TableColumn<S, T> tableColumn, S value)
+    public S getValue()
+    public TableColumn<S, T> getTableColumn()
+    public TableView<S> getTableView()
+}
+
+interface Callback<P, R> {
+    R call(P var1);
+}
+
+interface ObservableValue<T> extends Observable{
+        void addListener(ChangeListener<? super T> var1);
+        void removeListener(ChangeListener<? super T> var1);
+        T getValue();
+}
+
+class Button extends ButtonBase{
+    private BooleanProperty defaultButton;
+    private BooleanProperty cancelButton;
+    public Button()
+    public Button(String text)
+    public Button(String text, Node graphic)
+}
+
+abstract class ButtonBase extends Labeled{
+    private ReadOnlyBooleanWrapper armed;
+    private ObjectProperty<EventHandler<ActionEvent>> onAction;
+    public ButtonBase()
+    public ButtonBase(String text)
+    public ButtonBase(String text, Node graphic)
+    public final void setOnAction(EventHandler<ActionEvent> value)
+    public final EventHandler<ActionEvent> getOnAction()
+}
+
+abstract class Labeled{
+    private StringProperty text;
+    private StringProperty text;
+    public Labeled()
+    public Labeled(String text)
+    public final void setText(String value)
+}
+
+class Scene implements EventTarget{
+    public Scene(@NamedArg("root") Parent root)
+}
+
+interface EventTarget {
+    EventDispatchChain buildEventDispatchChain(EventDispatchChain var1);
+}
+
+interface Observable {
+    void addListener(InvalidationListener var1);
+    void removeListener(InvalidationListener var1);
+}
+
+interface List<E> extends Collection {
+    int size();
+    boolean isEmpty();
+    boolean contains(Object var1);
+    static <E> List<E> of()
+    static <E> List<E> of(E... elements)
+}
+
+
+interface ObservableList<E> extends List, Observable {
+    void addListener(ListChangeListener<? super E> var1);
+}
+
+
+class FXCollections {
+'    private static ObservableMap EMPTY_OBSERVABLE_MAP = new FXCollections.EmptyObservableMap();
+    private static ObservableList EMPTY_OBSERVABLE_LIST = new FXCollections.EmptyObservableList();
+'    private static ObservableSet EMPTY_OBSERVABLE_SET = new FXCollections.EmptyObservableSet();
+'    private static Random r;
+    private FXCollections()
+    public static <E> ObservableList<E> observableArrayList()
+'    public static <E> ObservableList<E> observableArrayList(Callback<E, Observable[]> extractor)
+'    public static <E> ObservableList<E> observableArrayList(Collection<? extends E> col)
+}
+
+class SimpleStringProperty{
+    private final Object bean;
+    private final String name;
+    public Object getBean()
+    public String getName()
+    public SimpleStringProperty()
+    public SimpleStringProperty(String initialValue)
+'    public SimpleStringProperty(Object bean, String name)
+'    public SimpleStringProperty(Object bean, String name, String initialValue)
+}
+
+class LocalDate{
+    - final int year;
+    - final short month;
+    - final short day;
+    + {static} LocalDate now()
+'    + LocalDate plusYears(long yearsToAdd)
+'    + LocalDate plusMonths(long monthsToAdd)
+'    + LocalDate plusWeeks(long weeksToAdd)
+    + LocalDate plusDays(long daysToAdd)
+}
+
+class Bindings{
+    private Bindings()
+    public {static} BooleanBinding isEmpty(final ObservableStringValue op)
+}
+
+
+class Application{
+    + {static} void launch(String... args)
+    + Application()
+}
+
+class Todos {
+    - SimpleStringProperty name;
+    - SimpleStringProperty date;
+    - SimpleStringProperty description;
+
+    + String getName()
+    + StringProperty nameProperty()
+    + void setName(String value)
+
+    + String getDate()
+    + void setDate(String value)
+    + String getDescription()
+
+    + String getDescription()
+    + StringProperty descriptionProperty()
+    + void setDescription(String value)
+
+    + Todos()
+    + Todos(String name)
+    + Todos(String name, String description)
+    + Todos(String name, String date, String description)
+}
+
+class TodoList extends Application{
+    - ObservableList<String> : list;
+    + void start(Stage stage)
+    + static void main(String[] args)
+}
+
+@enduml
