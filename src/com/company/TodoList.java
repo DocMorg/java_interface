@@ -1,8 +1,9 @@
 package com.company;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -27,7 +28,8 @@ public class TodoList extends Application {
     }
 
     @Override public void start(Stage stage) throws IOException {
-        Collection<Todos> list = Files.readAllLines(new File(".//save.txt").toPath())
+        URL path_to_file = getClass().getResource("save.txt");
+        List<Todos> list = Files.readAllLines(new File(path_to_file.getPath()).toPath())
                 .stream()
                 .map(line -> {
                     String[] details = line.split(",");
@@ -40,7 +42,11 @@ public class TodoList extends Application {
                 .collect(Collectors.toList());
 
         ObservableList<Todos> todos = FXCollections.observableArrayList(list);
-        ListView<String> listView = new ListView<>(this.list);
+        ObservableList<String> list_view = FXCollections.observableArrayList();
+        for (Todos value : list) {
+            list_view.add(value.getName());
+        }
+        ListView<String> listView = new ListView<>(list_view);
         listView.setPrefWidth(235);
         listView.setPrefHeight(200);
 
