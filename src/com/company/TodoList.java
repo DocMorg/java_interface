@@ -1,4 +1,9 @@
 package com.company;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -21,8 +26,20 @@ public class TodoList extends Application {
         Application.launch(args);
     }
 
-    @Override public void start(Stage stage) {
-        this.list = FXCollections.observableArrayList();
+    @Override public void start(Stage stage) throws IOException {
+        Collection<Todos> list = Files.readAllLines(new File(".//save.txt").toPath())
+                .stream()
+                .map(line -> {
+                    String[] details = line.split(",");
+                    Todos cd = new Todos();
+                    cd.setName(details[0]);
+                    cd.setDate(details[1]);
+                    cd.setDescription(details[2]);
+                    return cd;
+                })
+                .collect(Collectors.toList());
+
+        ObservableList<Todos> todos = FXCollections.observableArrayList(list);
         ListView<String> listView = new ListView<>(this.list);
         listView.setPrefWidth(235);
         listView.setPrefHeight(200);
@@ -30,7 +47,6 @@ public class TodoList extends Application {
         Button addButton = new Button();
         addButton.setText("Add");
 
-        ObservableList<Todos> todos = FXCollections.observableArrayList();
 
         TableView<Todos> table = new TableView<>(todos);
         table.setPrefWidth(235);
