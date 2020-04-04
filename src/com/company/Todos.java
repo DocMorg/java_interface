@@ -60,7 +60,7 @@ public class Todos {
     public Todos(String name) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate tomorrow = LocalDate.now().plusDays(1);
-        this.name = new SimpleStringProperty(name);;
+        this.name = new SimpleStringProperty(name);
         this.date = new SimpleStringProperty(dateFormat.format(tomorrow));
         this.description = new SimpleStringProperty(name);
     }
