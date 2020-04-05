@@ -26,8 +26,12 @@ public class TodoList extends Application {
         Application.launch(args);
     }
 
-    @Override public void start(Stage stage) throws IOException {
+    @Override public void start(Stage stage) throws IOException  {
         URL path_to_file = getClass().getResource(this.filename);
+        if (path_to_file==null){
+            System.out.println("FileNotFound error");
+            System.exit(1);
+        }
         this.table_view_data = FXCollections.observableArrayList(
                 Files.readAllLines(new File(path_to_file.getPath()).toPath())
                 .stream()
@@ -133,6 +137,10 @@ public class TodoList extends Application {
         Writer writer = null;
         try {
             URL path_to_file = getClass().getResource(this.filename);
+            if (path_to_file==null){
+                System.out.println("FileNotFound error");
+                System.exit(1);
+            }
             writer = new BufferedWriter(new FileWriter(new File(path_to_file.getPath())));
             for (Todos line : this.table_view_data) {
                 String text = line.getName() + "," + line.getDate() + "," + line.getDescription() + "\n";
