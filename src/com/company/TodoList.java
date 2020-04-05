@@ -1,9 +1,7 @@
 package com.company;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
@@ -20,7 +18,8 @@ import javafx.stage.Stage;
 
 public class TodoList extends Application {
 
-    private ObservableList<String> list;
+    private String filename = "/save.txt";
+    private ObservableList<Todos> table_view_data;
 
     public static void main(String[] args) {
 
@@ -28,8 +27,9 @@ public class TodoList extends Application {
     }
 
     @Override public void start(Stage stage) throws IOException {
-        URL path_to_file = getClass().getResource("save.txt");
-        List<Todos> list = Files.readAllLines(new File(path_to_file.getPath()).toPath())
+        URL path_to_file = getClass().getResource(this.filename);
+        this.table_view_data = FXCollections.observableArrayList(
+                Files.readAllLines(new File(path_to_file.getPath()).toPath())
                 .stream()
                 .map(line -> {
                     String[] details = line.split(",");
@@ -39,14 +39,13 @@ public class TodoList extends Application {
                     cd.setDescription(details[2]);
                     return cd;
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
 
-        ObservableList<Todos> todos = FXCollections.observableArrayList(list);
-        ObservableList<String> list_view = FXCollections.observableArrayList();
-        for (Todos value : list) {
-            list_view.add(value.getName());
+        ObservableList<String> list_view_data = FXCollections.observableArrayList();
+        for (Todos value : this.table_view_data) {
+            list_view_data.add(value.getName());
         }
-        ListView<String> listView = new ListView<>(list_view);
+        ListView<String> listView = new ListView<>(list_view_data);
         listView.setPrefWidth(235);
         listView.setPrefHeight(200);
 
@@ -54,7 +53,7 @@ public class TodoList extends Application {
         addButton.setText("Add");
 
 
-        TableView<Todos> table = new TableView<>(todos);
+        TableView<Todos> table = new TableView<>(this.table_view_data);
         table.setPrefWidth(235);
         table.setPrefHeight(200);
 
@@ -89,8 +88,8 @@ public class TodoList extends Application {
         TextField inputField = new TextField();
 
         addButton.setOnAction(e -> {
-            todos.addAll(FXCollections.observableArrayList(new Todos(inputField.getText())));
-            this.list.add(inputField.getText());
+            this.table_view_data.addAll(FXCollections.observableArrayList(new Todos(inputField.getText())));
+            list_view_data.add(inputField.getText());
             inputField.setText("");
             inputField.requestFocus();
         });
@@ -127,5 +126,25 @@ public class TodoList extends Application {
         stage.setScene(scene);
         stage.setTitle("todos");
         stage.show();
+    }
+
+    @Override
+    public void stop() throws IOException {
+        Writer writer = null;
+        try {
+            URL path_to_file = getClass().getResource(this.filename);
+            writer = new BufferedWriter(new FileWriter(new File(path_to_file.getPath())));
+            for (Todos line : this.table_view_data) {
+                String text = line.getName() + "," + line.getDate() + "," + line.getDescription() + "\n";
+                writer.write(text);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            assert writer != null;
+            writer.flush();
+            writer.close();
+        }
     }
 }
