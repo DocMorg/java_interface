@@ -1,8 +1,4 @@
 package com.company;
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -15,10 +11,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.*;
+import java.net.URL;
+
 
 public class TodoListOOP extends Application {
 
-    private String filename = "/save.txt";
+    private final String filename = "saveOOP.txt";
     private ObservableList<TodosOOP> table_view_data;
 
     public static void main(String[] args) {
@@ -32,20 +31,11 @@ public class TodoListOOP extends Application {
             System.out.println("FileNotFound error");
             System.exit(1);
         }
-        this.table_view_data = FXCollections.observableArrayList(
-                Files.readAllLines(new File(path_to_file.getPath()).toPath())
-                        .stream()
-                        .map(line -> {
-                            String[] details = line.split(",");
-                            return new TodosOOP(details[0],details[1],details[2]);
-                        })
-                        .collect(Collectors.toList()));
+        TodosOOP todo = new TodosOOP();
 
-        ObservableList<String> list_view_data = FXCollections.observableArrayList();
-        for (TodosOOP value : this.table_view_data) {
-            list_view_data.add(value.getName());
-        }
-        ListView<String> listView = new ListView<>(list_view_data);
+        this.table_view_data = todo.loadFromFile(path_to_file);
+        ListView<String> listView = new ListView<>(todo.fillNamesIntoList(this.table_view_data));
+
         listView.setPrefWidth(235);
         listView.setPrefHeight(200);
 
@@ -89,7 +79,7 @@ public class TodoListOOP extends Application {
 
         addButton.setOnAction(e -> {
             this.table_view_data.addAll(FXCollections.observableArrayList(new TodosOOP(inputField.getText())));
-            list_view_data.add(inputField.getText());
+            listView.getItems().add(inputField.getText());
             inputField.setText("");
             inputField.requestFocus();
         });
@@ -130,25 +120,7 @@ public class TodoListOOP extends Application {
 
     @Override
     public void stop() throws IOException {
-        Writer writer = null;
-        try {
-            URL path_to_file = getClass().getResource(this.filename);
-            if (path_to_file==null){
-                System.out.println("FileNotFound error");
-                System.exit(1);
-            }
-            writer = new BufferedWriter(new FileWriter(new File(path_to_file.getPath())));
-            for (TodosOOP line : this.table_view_data) {
-                String text = line.getName() + "," + line.getDate() + "," + line.getDescription() + "\n";
-                writer.write(text);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            assert writer != null;
-            writer.flush();
-            writer.close();
-        }
+        TodoFileWriter fileWriter = new TodoFileWriter(this.filename);
+        fileWriter.write(this.table_view_data);
     }
 }
