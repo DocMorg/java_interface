@@ -1,8 +1,4 @@
 package com.company;
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -15,10 +11,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.util.stream.Collectors;
+
 
 public class TodoList extends Application {
 
-    private String filename = "/save.txt";
+    private final String filename = "/save.txt";
     private ObservableList<Todos> table_view_data;
 
     public static void main(String[] args) {
