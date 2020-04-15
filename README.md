@@ -15,4 +15,5 @@ mvn clean compile
 
 ## Run app
 ### Windows
-Use run.bat file in project root directory.
+Use run_javaw.bat file in project root directory.  
+Use run_java.bat file in project root directory to run application from command prompt.

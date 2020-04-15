@@ -63,9 +63,10 @@ public class TodosOOP {
         this.description = new SimpleStringProperty(name);
     }
 
-    public ObservableList<TodosOOP> loadFromFile(URL filename) throws IOException {
+    public ObservableList<TodosOOP> loadFromFile(String filename) throws IOException {
+    	ClassLoader cl = getClass().getClassLoader();
         return FXCollections.observableArrayList(
-                Files.readAllLines(new File(filename.getPath()).toPath())
+                Files.readAllLines(new File(cl.getResource(filename).getFile()).toPath())
                         .stream()
                         .map(line -> {
                             String[] details = line.split(",");

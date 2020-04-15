@@ -9,7 +9,7 @@ public class TodoFileWriter {
     private final URL path;
 
     public TodoFileWriter(String filename) {
-        this.path = getClass().getResource(filename);
+        this.path = getClass().getClassLoader().getResource(filename);
     }
 
     protected void write(ObservableList<TodosOOP> data) throws IOException {

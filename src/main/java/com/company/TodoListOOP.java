@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
 
 
 public class TodoListOOP extends Application {
@@ -25,15 +26,18 @@ public class TodoListOOP extends Application {
         Application.launch(args);
     }
 
-    @Override public void start(Stage stage) throws IOException {
-        URL path_to_file = getClass().getResource(this.filename);
-        if (path_to_file==null){
-            System.out.println("FileNotFound error");
-            System.exit(1);
-        }
+    @Override 
+    public void start(Stage stage) throws IOException {
+//        URL path_to_file = new URL(this.filename);
+//        if (path_to_file==null){
+//            System.out.println("FileNotFound error");
+//            System.exit(1);
+//       }
+//       System.out.println(Files.readAllLines(new File(filename).toPath()));
+        
         TodosOOP todo = new TodosOOP();
 
-        this.table_view_data = todo.loadFromFile(path_to_file);
+        this.table_view_data = todo.loadFromFile(this.filename);
         ListView<String> listView = new ListView<>(todo.fillNamesIntoList(this.table_view_data));
 
         listView.setPrefWidth(235);
