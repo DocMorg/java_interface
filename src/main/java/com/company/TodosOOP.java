@@ -3,7 +3,6 @@ package com.company;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +63,7 @@ public class TodosOOP {
         this.description = new SimpleStringProperty(name);
     }
 
-    public ObservableList<TodosOOP> loadFromFile(@NotNull URL filename) throws IOException {
+    public ObservableList<TodosOOP> loadFromFile(URL filename) throws IOException {
         return FXCollections.observableArrayList(
                 Files.readAllLines(new File(filename.getPath()).toPath())
                         .stream()
@@ -75,7 +74,7 @@ public class TodosOOP {
                         .collect(Collectors.toList()));
     }
 
-    public String printline(@NotNull TodosOOP line){
+    public String printline(TodosOOP line){
         return line.name.getValue() + "," + line.date.getValue() + "," + line.description.getValue() + "\n";
     }
 

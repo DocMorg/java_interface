@@ -3,3 +3,6 @@
 /out/production/interface_oop/
 /.classpath
 /.project
+/bin/
+/target/
+/.settings/
