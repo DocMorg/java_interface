@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -63,10 +62,13 @@ public class TodosOOP {
         this.description = new SimpleStringProperty(name);
     }
 
+    private File file(String filename){
+        return new File((getClass().getClassLoader().getResource(filename).getFile()));
+    }
+
     public ObservableList<TodosOOP> loadFromFile(String filename) throws IOException {
-    	ClassLoader cl = getClass().getClassLoader();
         return FXCollections.observableArrayList(
-                Files.readAllLines(new File(cl.getResource(filename).getFile()).toPath())
+                Files.readAllLines(file(filename).toPath())
                         .stream()
                         .map(line -> {
                             String[] details = line.split(",");
@@ -79,8 +81,7 @@ public class TodosOOP {
         if (data == null || filename == null){
             throw new IllegalArgumentException("data не должна быть null");
         }
-        ClassLoader cl = getClass().getClassLoader();
-        Writer writer = new BufferedWriter(new FileWriter(new File(cl.getResource(filename).getFile())));
+        Writer writer = new BufferedWriter(new FileWriter(file(filename)));
         for (TodosOOP line : data) {
             String text = line.name.getValue() + "," + line.date.getValue() + "," + line.description.getValue() + "\n";
             writer.write(text);
