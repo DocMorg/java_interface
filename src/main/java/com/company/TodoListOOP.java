@@ -29,11 +29,11 @@ public class TodoListOOP extends Application {
     @Override 
     public void start(Stage stage) throws IOException {
         TodosOOP todo = new TodosOOP();
-//        if (getClass().getResource(this.filename) == null){
-//            System.out.println("Error in filename");
-////            System.exit(1);
-//            throw new FileNotFoundException("Data file was not found");
-//        }
+        if (getClass().getClassLoader().getResource(this.filename) == null){
+            System.out.println("Error in filename");
+//            System.exit(1);
+            throw new FileNotFoundException("Data file was not found");
+        }
         this.table_view_data = todo.loadFromFile(this.filename);
         ListView<String> listView = new ListView<>(todo.fillNamesIntoList(this.table_view_data));
 
