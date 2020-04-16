@@ -28,15 +28,12 @@ public class TodoListOOP extends Application {
 
     @Override 
     public void start(Stage stage) throws IOException {
-//        URL path_to_file = new URL(this.filename);
-//        if (path_to_file==null){
-//            System.out.println("FileNotFound error");
-//            System.exit(1);
-//       }
-//       System.out.println(Files.readAllLines(new File(filename).toPath()));
-        
         TodosOOP todo = new TodosOOP();
-
+//        if (getClass().getResource(this.filename) == null){
+//            System.out.println("Error in filename");
+////            System.exit(1);
+//            throw new FileNotFoundException("Data file was not found");
+//        }
         this.table_view_data = todo.loadFromFile(this.filename);
         ListView<String> listView = new ListView<>(todo.fillNamesIntoList(this.table_view_data));
 
@@ -124,7 +121,10 @@ public class TodoListOOP extends Application {
 
     @Override
     public void stop() throws IOException {
-        TodoFileWriter fileWriter = new TodoFileWriter(this.filename);
-        fileWriter.write(this.table_view_data);
+        if (this.table_view_data == null){
+            System.exit(0);
+        }
+        TodosOOP todos = new TodosOOP();
+        todos.writeData(this.table_view_data, this.filename);
     }
 }

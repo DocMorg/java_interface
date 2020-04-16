@@ -3,9 +3,9 @@ package com.company;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.time.LocalDate;
@@ -70,16 +70,26 @@ public class TodosOOP {
                         .stream()
                         .map(line -> {
                             String[] details = line.split(",");
-                            return new TodosOOP(details[0],details[1],details[2]);
+                            return new TodosOOP(details[0], details[1], details[2]);
                         })
                         .collect(Collectors.toList()));
     }
 
-    public String printline(TodosOOP line){
-        return line.name.getValue() + "," + line.date.getValue() + "," + line.description.getValue() + "\n";
+    public void writeData(ObservableList<TodosOOP> data, String filename) throws IOException {
+        if (data == null || filename == null){
+            throw new IllegalArgumentException("data не должна быть null");
+        }
+        ClassLoader cl = getClass().getClassLoader();
+        Writer writer = new BufferedWriter(new FileWriter(new File(cl.getResource(filename).getFile())));
+        for (TodosOOP line : data) {
+            String text = line.name.getValue() + "," + line.date.getValue() + "," + line.description.getValue() + "\n";
+            writer.write(text);
+        }
+        writer.flush();
+        writer.close();
     }
 
-    public ObservableList<String> fillNamesIntoList(ObservableList<TodosOOP> data){
+    public ObservableList<String> fillNamesIntoList(@NotNull ObservableList<TodosOOP> data){
         ObservableList<String> list_view_data = FXCollections.observableArrayList();
         for (TodosOOP value : data) {
             list_view_data.add(value.getName());
