@@ -2,6 +2,8 @@ package todos.gui;
 
 
 import todos.core.EmptyFieldException;
+import todos.core.TodoInterface;
+import todos.core.TodoList;
 import todos.core.Todos;
 
 import javax.swing.*;
@@ -24,8 +26,10 @@ public class MainWindow extends JFrame {
     private JList<Todos> taskList;
 
     private final TodoListModel todoListModel;
+    private final TodoInterface todoList;
 
     public MainWindow() {
+        this.todoList = new TodoList();
         this.todoListModel = TodoListModel.getInstance();
 
         this.setContentPane(this.getMainContentPane());
@@ -76,12 +80,14 @@ public class MainWindow extends JFrame {
         if (this.addTaskButton == null) {
             this.addTaskButton = new JButton("  Add  ");
 
+            // addActionListener добавить
             this.addTaskButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     try {
-                            todoListModel.add(NewTaskField().readText());
-                            TaskList().setSelectedIndex(TaskList().getModel().getSize() - 1);
+                        todoList.add(NewTaskField().readText());
+                        TaskList().setSelectedIndex(todoListModel.getSize() - 1);
+//                        TaskList().setSelectedIndex(TaskList().getModel().getSize() - 1);
                     } catch (EmptyFieldException ignored) {}
                 }
             });

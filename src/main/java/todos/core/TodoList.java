@@ -1,11 +1,12 @@
 package todos.core;
 
+import todos.gui.TodoListModel;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TodoList implements TodoInterface {
-
 
     private final List<Todos> list = new LinkedList<>();
 
@@ -21,6 +22,8 @@ public class TodoList implements TodoInterface {
 
     public void add(Todos item) {
         this.list.add(item);
+        TodoListModel todoListModel = TodoListModel.getInstance();
+        todoListModel.add(item);
     }
 
     public Todos getElementAt(int i) {

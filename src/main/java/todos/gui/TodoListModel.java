@@ -20,15 +20,13 @@ public class TodoListModel extends AbstractListModel<Todos> {
         return instance;
     }
 
-
     public void remove(int i) {
         this.todoList.remove(i);
-        this.fireContentsChanged(this, i, i);
+        this.fireIntervalRemoved(this, i, i);
     }
 
     public void add(Todos item) {
-        this.todoList.add(item);
-        this.fireContentsChanged(this,
+        this.fireIntervalAdded(this,
                 this.todoList.getSize() - 1, this.todoList.getSize() - 1);
     }
 
