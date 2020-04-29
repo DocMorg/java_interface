@@ -34,21 +34,41 @@ public class Todos {
         this.description = name;
     }
 
-    private File file(String filename){
-        return new File((getClass().getClassLoader().getResource(filename).getFile()));
+    @Override
+    public String toString() {
+        return this.name + "    " + this.date;
     }
 
-    public JList<Todos> loadFromFile(String filename) throws IOException {
-        return new JList<Todos>(
-                (Vector<? extends Todos>) Files.readAllLines(file(filename).toPath())
-                        .stream()
-                        .map(line -> {
-                            String[] data = line.split(",");
-                            return new Todos(data[0], data[1], data[2]);
-                        })
-                        .collect(Collectors.toList()));
-    }
-
+    //    private File file(String filename){
+//        return new File((getClass().getClassLoader().getResource(filename).getFile()));
+//    }
+//
+//    public ObservableList<TodosOOP> loadFromFile(String filename) throws IOException {
+//        return FXCollections.observableArrayList(
+//                Files.readAllLines(file(filename).toPath())
+//                        .stream()
+//                        .map(line -> {
+//                            String[] details = line.split(",");
+//                            return new TodosOOP(details[0], details[1], details[2]);
+//                        })
+//                        .collect(Collectors.toList()));
+//    }
+//
+//    private File file(String filename){
+//        return new File((getClass().getClassLoader().getResource(filename).getFile()));
+//    }
+//
+//    public JList<Todos> loadFromFile(String filename) throws IOException {
+//        return new JList<Todos>(
+//                (Vector<? extends Todos>) Files.readAllLines(file(filename).toPath())
+//                        .stream()
+//                        .map(line -> {
+//                            String[] data = line.split(",");
+//                            return new Todos(data[0], data[1], data[2]);
+//                        })
+//                        .collect(Collectors.toList()));
+//    }
+//
 //    public void writeData(ObservableList<Todos> data, String filename) throws IOException {
 //        if (data == null || filename == null){
 //            throw new IllegalArgumentException("data не должна быть null");
