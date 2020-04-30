@@ -8,7 +8,8 @@ import todos.core.Todos;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -25,12 +26,10 @@ public class MainWindow extends JFrame {
     private JButton deleteButton;
     private JList<Todos> taskList;
 
-    private final TodoListModel todoListModel;
     private final TodoInterface todoList;
 
     public MainWindow() {
         this.todoList = new TodoList();
-        this.todoListModel = TodoListModel.getInstance();
 
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
@@ -80,14 +79,12 @@ public class MainWindow extends JFrame {
         if (this.addTaskButton == null) {
             this.addTaskButton = new JButton("  Add  ");
 
-            // addActionListener добавить
-            this.addTaskButton.addMouseListener(new MouseAdapter() {
+            this.addTaskButton.addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent actionEvent) {
                     try {
                         todoList.add(NewTaskField().readText());
-                        TaskList().setSelectedIndex(todoListModel.getSize() - 1);
-//                        TaskList().setSelectedIndex(TaskList().getModel().getSize() - 1);
+                        TaskList().setSelectedIndex(todoList.getSize() - 1);
                     } catch (EmptyFieldException ignored) {}
                 }
             });
@@ -107,7 +104,7 @@ public class MainWindow extends JFrame {
     private JList<Todos> TaskList() {
         if (this.taskList == null) {
             this.taskList = new JList<>();
-            this.taskList.setModel(this.todoListModel);
+            this.taskList.setModel(todoList.getModel());
 
 //            this.taskList.setCellRenderer(CellRenderer());
         }
@@ -135,14 +132,13 @@ public class MainWindow extends JFrame {
         if (this.deleteButton == null) {
             this.deleteButton = new JButton(" Delete");
 
-            this.deleteButton.addMouseListener(new MouseAdapter() {
+            this.deleteButton.addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    todoListModel.remove(TaskList().getSelectedIndex());
+                public void actionPerformed(ActionEvent actionEvent) {
+                    todoList.remove(TaskList().getSelectedIndex());
                 }
             });
         }
-
         return this.deleteButton;
     }
 

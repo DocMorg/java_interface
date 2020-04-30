@@ -9,25 +9,19 @@ import javax.swing.*;
 import java.util.Calendar;
 
 public class TodoListModel extends AbstractListModel<Todos> {
-    private static final TodoListModel instance = new TodoListModel();
+
     private final TodoInterface todoList;
 
-    private TodoListModel() {
-        this.todoList = new TodoList();
-    }
-
-    public static TodoListModel getInstance() {
-        return instance;
+    public TodoListModel(TodoInterface todoList) {
+        this.todoList = todoList;
     }
 
     public void remove(int i) {
-        this.todoList.remove(i);
         this.fireIntervalRemoved(this, i, i);
     }
 
-    public void add(Todos item) {
-        this.fireIntervalAdded(this,
-                this.todoList.getSize() - 1, this.todoList.getSize() - 1);
+    public void add(int newSize) {
+        this.fireIntervalAdded(this, newSize, newSize);
     }
 
     @Override
