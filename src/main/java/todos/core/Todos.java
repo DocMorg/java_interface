@@ -11,19 +11,16 @@ import javax.swing.*;
 public class Todos {
     private final String name;
     private final String date;
-    private final String description;
 
 
     public Todos() {
         this.name = "";
         this.date = "";
-        this.description = "";
     }
 
-    public Todos(String name, String date, String description) {
+    public Todos(String name, String date) {
         this.name = name;
         this.date = date;
-        this.description = description;
     }
 
     public Todos(String name) {
@@ -31,7 +28,6 @@ public class Todos {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
         this.name = name;
         this.date = dateFormat.format(tomorrow);
-        this.description = name;
     }
 
     @Override
