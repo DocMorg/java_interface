@@ -1,4 +1,5 @@
 package todos.core;
+import javax.swing.ListModel;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,5 +10,5 @@ public interface TodoInterface extends Iterable<Todos> {
     int getSize();
     Todos getElementAt(int i);
     Iterator<Todos> iterator();
-//    List<Todos> getList();
+    ListModel<Todos> getModel();
 }
