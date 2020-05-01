@@ -1,7 +1,8 @@
 package todos.gui;
 
-import todos.core.EmptyFieldException;
-import todos.core.Todos;
+import todos.core.DefaultTodo;
+import todos.core.Exceptions.EmptyFieldException;
+import todos.core.Todo;
 
 import javax.swing.*;
 
@@ -15,11 +16,11 @@ public class MyJTextField extends JTextField {
         return super.getText();
     }
 
-    public Todos readText() throws EmptyFieldException {
+    public Todo readText() throws EmptyFieldException {
         if (this.getMyText().length() > 0) {
             String text = this.getMyText();
             this.emptyTextField();
-            return new Todos(text);
+            return new DefaultTodo(text);
 
         } else {
             throw new EmptyFieldException();
