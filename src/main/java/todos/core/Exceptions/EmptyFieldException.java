@@ -1,4 +1,4 @@
-package todos.core;
+package todos.core.Exceptions;
 
 public class EmptyFieldException extends Exception {
     public EmptyFieldException() {
