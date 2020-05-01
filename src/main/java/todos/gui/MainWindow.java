@@ -1,16 +1,16 @@
 package todos.gui;
 
 
-import todos.core.EmptyFieldException;
-import todos.core.TodoInterface;
+import todos.core.Exceptions.EmptyFieldException;
+import todos.core.Observer.DefaultEventListener;
+import todos.core.Todo;
 import todos.core.TodoList;
-import todos.core.Todos;
+import todos.core.DefaultTodoList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createVerticalStrut;
@@ -24,12 +24,17 @@ public class MainWindow extends JFrame {
     private JScrollPane taskListScrollPane;
     private JPanel taskListControls;
     private JButton deleteButton;
-    private JList<Todos> taskList;
-
-    private final TodoInterface todoList;
+    private JList<Todo> taskList;
+    private final TodoListModel todoListModel;
+    private final TodoList todoList;
 
     public MainWindow() {
-        this.todoList = new TodoList();
+        this.todoList = new DefaultTodoList();
+        this.todoListModel = new TodoListModel(this.todoList);
+        ((DefaultTodoList) this.todoList).events.subscribe("add",
+                new DefaultEventListener(this.todoListModel));
+        ((DefaultTodoList) this.todoList).events.subscribe("remove",
+                new DefaultEventListener(this.todoListModel));
 
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
@@ -101,32 +106,14 @@ public class MainWindow extends JFrame {
         return this.taskListScrollPane;
     }
 
-    private JList<Todos> TaskList() {
+    private JList<Todo> TaskList() {
         if (this.taskList == null) {
             this.taskList = new JList<>();
-            this.taskList.setModel(todoList.getModel());
-
-//            this.taskList.setCellRenderer(CellRenderer());
+            this.taskList.setModel(this.todoListModel);
         }
 
         return this.taskList;
     }
-
-
-//    private ListCellRenderer<Object> CellRenderer() {
-//        return new DefaultListCellRenderer() {
-//            @Override
-//            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-//                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-//                if (value instanceof Todos) {
-//                    Todos nextTodo = (Todos) value;
-//                    setText((String) value);
-//                    if (isSelected) setBackground(getBackground().darker());
-//                }
-//                return c;
-//            }
-//        };
-//    }
 
     private JButton DeleteButton() {
         if (this.deleteButton == null) {
