@@ -1,18 +1,16 @@
 package todos.gui;
 
 
-import todos.core.TodoInterface;
+import todos.core.Todo;
 import todos.core.TodoList;
-import todos.core.Todos;
 
 import javax.swing.*;
-import java.util.Calendar;
 
-public class TodoListModel extends AbstractListModel<Todos> {
+public class TodoListModel extends AbstractListModel<Todo> {
 
-    private final TodoInterface todoList;
+    private final TodoList todoList;
 
-    public TodoListModel(TodoInterface todoList) {
+    public TodoListModel(TodoList todoList) {
         this.todoList = todoList;
     }
 
@@ -30,7 +28,7 @@ public class TodoListModel extends AbstractListModel<Todos> {
     }
 
     @Override
-    public Todos getElementAt(int index) {
+    public Todo getElementAt(int index) {
         return this.todoList.getElementAt(index);
     }
 }
