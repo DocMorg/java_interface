@@ -2,8 +2,12 @@ package todos.core;
 
 import todos.core.Observer.EventManager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class DefaultTodoList implements TodoList {
 
@@ -26,7 +30,7 @@ public class DefaultTodoList implements TodoList {
      */
     public void add(Todo item) {
         this.list.add(item);
-        events.notify("add", this.getSize() - 1);
+        events.notify("add", getSize() - 1);
     }
 
     public Todo getElementAt(int i) {
@@ -41,8 +45,10 @@ public class DefaultTodoList implements TodoList {
         return null;
     }
 
-    public void saveTodo(Saver saver) {
-
+    public void saveTodo(Saver saver){
+        for (int m = 0; m < getSize(); m++){
+            getElementAt(m).saveTodo(saver);
+        }
     }
 
 }
