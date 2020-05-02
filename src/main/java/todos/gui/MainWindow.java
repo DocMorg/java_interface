@@ -1,6 +1,7 @@
 package todos.gui;
 
 
+import todos.core.CsvSaver;
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListener;
 import todos.core.Todo;
@@ -11,6 +12,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Objects;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createVerticalStrut;
@@ -39,9 +46,24 @@ public class MainWindow extends JFrame {
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+                try {
+                    todoList.saveTodo(new CsvSaver(new PrintStream(file("backup.csv"))));
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+                System.exit(0);
+            }
+        });
         this.setMinimumSize(new Dimension(320, 270));
 
         this.pack();
+    }
+
+    private File file(String filename){
+        return new File((Objects.requireNonNull(getClass().getClassLoader().
+                getResource(filename)).getFile()));
     }
 
     private Container getMainContentPane() {
