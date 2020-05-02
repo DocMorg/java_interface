@@ -37,9 +37,7 @@ public class DefaultTodo implements Todo {
 //    }
     
 
-    //    private File file(String filename){
-//        return new File((getClass().getClassLoader().getResource(filename).getFile()));
-//    }
+
 //
 //    public ObservableList<TodosOOP> loadFromFile(String filename) throws IOException {
 //        return FXCollections.observableArrayList(
