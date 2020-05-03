@@ -1,21 +1,17 @@
 package todos.core;
 
-import todos.core.Observer.EventManager;
+import todos.core.Observer.EventsManaged;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class DefaultTodoList implements TodoList {
 
     public DefaultTodoList(){
-        this.events = new EventManager("add", "remove");
+        this.events = new EventsManaged("add", "remove");
 
     }
-    public EventManager events;
+    public EventsManaged events;
     private final List<Todo> list = new LinkedList<>();
 
     public void remove(int i) {
@@ -45,9 +41,9 @@ public class DefaultTodoList implements TodoList {
         return null;
     }
 
-    public void saveTodo(Saver saver){
+    public void saveTodo(Saved saved){
         for (int m = 0; m < getSize(); m++){
-            getElementAt(m).saveTodo(saver);
+            getElementAt(m).saveTodo(saved);
         }
     }
 

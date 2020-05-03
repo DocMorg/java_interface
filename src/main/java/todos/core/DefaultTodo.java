@@ -25,10 +25,10 @@ public class DefaultTodo implements Todo {
     }
 
     @Override
-    public void saveTodo(Saver saver) {
-        saver.add("name", this.name);
-        saver.add("date", this.date);
-        saver.save();
+    public void saveTodo(Saved saved) {
+        saved.add("name", this.name);
+        saved.add("date", this.date);
+        saved.save();
     }
 
 //    @Override

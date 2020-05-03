@@ -4,7 +4,7 @@ public interface Todo {
 
 //    /**
 //     * Object which has abilities to save and load itself
-//     * using {@link Saver} object's methods
+//     * using {@link Saved} object's methods
 //     *
 //     *
 //     * @param loader - {@link Loader} which loads data
@@ -14,8 +14,8 @@ public interface Todo {
 
     /**
      *
-     * @param saver - {@link Saver} which saves data
+     * @param saved - {@link Saved} which saves data
      */
-    void saveTodo(Saver saver);
+    void saveTodo(Saved saved);
 
 }

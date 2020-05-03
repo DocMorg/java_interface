@@ -1,6 +1,6 @@
 package todos.core.Observer;
 
-public interface EventListener {
+public interface EventListened {
 
     /**
      * @param eventType - only add or remove supported

@@ -1,6 +1,6 @@
 package todos.core;
 
-public interface Saver {
+public interface Saved {
 
     /**
      * Adds named portion of data to be accumulated for outputting. Invoke

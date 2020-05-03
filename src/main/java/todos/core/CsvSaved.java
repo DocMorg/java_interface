@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CsvSaver implements Saver {
+public class CsvSaved implements Saved {
 
     private final PrintStream out;
     private final Map<String, String> map = new LinkedHashMap<>();
 
-    public CsvSaver(PrintStream out) {
+    public CsvSaved(PrintStream out) {
         this.out = out;
     }
 

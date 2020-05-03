@@ -9,7 +9,7 @@ public interface TodoList {
     Todo getElementAt(int i);
     Todo loadTodo();
 
-    void saveTodo(Saver saver);
+    void saveTodo(Saved saved);
 
 
 

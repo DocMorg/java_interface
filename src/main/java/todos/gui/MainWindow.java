@@ -1,9 +1,9 @@
 package todos.gui;
 
 
-import todos.core.CsvSaver;
+import todos.core.CsvSaved;
 import todos.core.Exceptions.EmptyFieldException;
-import todos.core.Observer.DefaultEventListener;
+import todos.core.Observer.DefaultEventListened;
 import todos.core.Todo;
 import todos.core.TodoList;
 import todos.core.DefaultTodoList;
@@ -39,9 +39,9 @@ public class MainWindow extends JFrame {
         this.todoList = new DefaultTodoList();
         this.todoListModel = new TodoListModel(this.todoList);
         ((DefaultTodoList) this.todoList).events.subscribe("add",
-                new DefaultEventListener(this.todoListModel));
+                new DefaultEventListened(this.todoListModel));
         ((DefaultTodoList) this.todoList).events.subscribe("remove",
-                new DefaultEventListener(this.todoListModel));
+                new DefaultEventListened(this.todoListModel));
 
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 try {
-                    todoList.saveTodo(new CsvSaver(new PrintStream(file("backup.csv"))));
+                    todoList.saveTodo(new CsvSaved(new PrintStream(file("backup.csv"))));
                 } catch (FileNotFoundException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
                 }

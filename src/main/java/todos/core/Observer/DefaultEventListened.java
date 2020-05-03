@@ -4,17 +4,17 @@ import todos.gui.TodoListModel;
 
 
 /**
- * Default implementation of {@link EventListener} linked to TodoListModel
+ * Default implementation of {@link EventListened} linked to TodoListModel
  * in constructor
  */
-public class DefaultEventListener  implements EventListener {
+public class DefaultEventListened implements EventListened {
 
     private final TodoListModel model;
 
     /**
      * @param model - links TodoListModel instance to listener
      */
-    public DefaultEventListener(TodoListModel model) {
+    public DefaultEventListened(TodoListModel model) {
         this.model = model;
     }
 
