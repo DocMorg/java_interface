@@ -1,12 +1,9 @@
 package todos.gui;
 
 
-import todos.core.CsvSaved;
+import todos.core.*;
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListened;
-import todos.core.Todo;
-import todos.core.TodoList;
-import todos.core.DefaultTodoList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Objects;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
@@ -34,30 +29,41 @@ public class MainWindow extends JFrame {
     private JList<Todo> taskList;
     private final TodoListModel todoListModel;
     private final TodoList todoList;
+    private final String filename = "backup.csv";
 
     public MainWindow() {
         this.todoList = new DefaultTodoList();
+        // linking model to our list using observer pattern realization
         this.todoListModel = new TodoListModel(this.todoList);
         ((DefaultTodoList) this.todoList).events.subscribe("add",
                 new DefaultEventListened(this.todoListModel));
         ((DefaultTodoList) this.todoList).events.subscribe("remove",
                 new DefaultEventListened(this.todoListModel));
+        // Reading already written data
+        try {
+            Readed readed = new DefaultReaded(new FileInputStream(file(filename)));
+            this.todoList.loadTodo(readed);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Setting onclose method for saving all changes in list
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 try {
-                    todoList.saveTodo(new CsvSaved(new PrintStream(file("backup.csv"))));
+                    todoList.saveTodo(new CsvSaved(new PrintStream(file(filename))));
                 } catch (FileNotFoundException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
                 }
                 System.exit(0);
             }
         });
-        this.setMinimumSize(new Dimension(320, 270));
 
+        this.setMinimumSize(new Dimension(320, 270));
         this.pack();
     }
 
@@ -106,14 +112,11 @@ public class MainWindow extends JFrame {
         if (this.addTaskButton == null) {
             this.addTaskButton = new JButton("  Add  ");
 
-            this.addTaskButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    try {
-                        todoList.add(NewTaskField().readText());
-                        TaskList().setSelectedIndex(todoList.getSize() - 1);
-                    } catch (EmptyFieldException ignored) {}
-                }
+            this.addTaskButton.addActionListener(actionEvent -> {
+                try {
+                    todoList.add(NewTaskField().readText());
+                    TaskList().setSelectedIndex(todoList.getSize() - 1);
+                } catch (EmptyFieldException ignored) {}
             });
         }
 
@@ -141,12 +144,8 @@ public class MainWindow extends JFrame {
         if (this.deleteButton == null) {
             this.deleteButton = new JButton(" Delete");
 
-            this.deleteButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    todoList.remove(TaskList().getSelectedIndex());
-                }
-            });
+            this.deleteButton.addActionListener(actionEvent ->
+                    todoList.remove(TaskList().getSelectedIndex()));
         }
         return this.deleteButton;
     }
