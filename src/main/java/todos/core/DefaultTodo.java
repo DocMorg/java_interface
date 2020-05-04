@@ -24,66 +24,16 @@ public class DefaultTodo implements Todo {
         return this.name + "    " + this.date;
     }
 
-    @Override
+//    public void loadTodo(Loaded loaded, Readed readed) {
+//        for (String[] strings: readed.read()){
+//            new DefaultTodo(strings[0], strings[1]);
+//        }
+//    }
+
     public void saveTodo(Saved saved) {
         saved.add("name", this.name);
         saved.add("date", this.date);
         saved.save();
     }
-
-//    @Override
-//    public Todo loadTodo() {
-//        return this;
-//    }
-    
-
-
-//
-//    public ObservableList<TodosOOP> loadFromFile(String filename) throws IOException {
-//        return FXCollections.observableArrayList(
-//                Files.readAllLines(file(filename).toPath())
-//                        .stream()
-//                        .map(line -> {
-//                            String[] details = line.split(",");
-//                            return new TodosOOP(details[0], details[1], details[2]);
-//                        })
-//                        .collect(Collectors.toList()));
-//    }
-//
-//    private File file(String filename){
-//        return new File((getClass().getClassLoader().getResource(filename).getFile()));
-//    }
-//
-//    public JList<DefaultTodo> loadFromFile(String filename) throws IOException {
-//        return new JList<DefaultTodo>(
-//                (Vector<? extends DefaultTodo>) Files.readAllLines(file(filename).toPath())
-//                        .stream()
-//                        .map(line -> {
-//                            String[] data = line.split(",");
-//                            return new DefaultTodo(data[0], data[1], data[2]);
-//                        })
-//                        .collect(Collectors.toList()));
-//    }
-//
-//    public void writeData(ObservableList<DefaultTodo> data, String filename) throws IOException {
-//        if (data == null || filename == null){
-//            throw new IllegalArgumentException("data не должна быть null");
-//        }
-//        Writer writer = new BufferedWriter(new FileWriter(file(filename)));
-//        for (DefaultTodo line : data) {
-//            String text = line.getName() + "," + line.getDate() + "," + line.getDescription() + "\n";
-//            writer.write(text);
-//        }
-//        writer.flush();
-//        writer.close();
-//    }
-//
-//    public ObservableList<String> fillNamesIntoList(ObservableList<DefaultTodo> data){
-//        ObservableList<String> list_view_data = FXCollections.observableArrayList();
-//        for (DefaultTodo value : data) {
-//            list_view_data.add(value.getName());
-//        }
-//        return list_view_data;
-//    }
 
 }
