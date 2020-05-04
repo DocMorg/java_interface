@@ -37,8 +37,10 @@ public class DefaultTodoList implements TodoList {
         return list.size();
     }
 
-    public Todo loadTodo() {
-        return null;
+    public void loadTodo(Readed readed) {
+        for (String[] strings: readed.read()){
+            this.list.add(new DefaultTodo(strings[0], strings[1]));
+        }
     }
 
     public void saveTodo(Saved saved){
