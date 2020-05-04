@@ -7,7 +7,7 @@ public interface TodoList {
     void add(Todo item);
     int getSize();
     Todo getElementAt(int i);
-    Todo loadTodo();
+    void loadTodo(Readed readed);
 
     void saveTodo(Saved saved);
 
