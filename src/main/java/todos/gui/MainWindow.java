@@ -7,8 +7,6 @@ import todos.core.Observer.DefaultEventListened;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -26,22 +24,22 @@ public class MainWindow extends JFrame {
     private JScrollPane taskListScrollPane;
     private JPanel taskListControls;
     private JButton deleteButton;
-    private JList<Todo> taskList;
-    private final TodoListModel todoListModel;
+    private JTable table;
+    private final TodoTableModel todoTableModel;
     private final TodoList todoList;
     private final String filename = "backup.csv";
 
     public MainWindow() {
         this.todoList = new DefaultTodoList();
         // linking model to our list using observer pattern realization
-        this.todoListModel = new TodoListModel(this.todoList);
+        this.todoTableModel = new TodoTableModel(this.todoList);
         ((DefaultTodoList) this.todoList).events.subscribe("add",
-                new DefaultEventListened(this.todoListModel));
+                new DefaultEventListened(this.todoTableModel));
         ((DefaultTodoList) this.todoList).events.subscribe("remove",
-                new DefaultEventListened(this.todoListModel));
+                new DefaultEventListened(this.todoTableModel));
         // Reading already written data
         try {
-            Readed readed = new DefaultReaded(new FileInputStream(file(filename)));
+            Readed readed = new CsvReaded(new FileInputStream(file(filename)));
             this.todoList.loadTodo(readed);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -115,7 +113,6 @@ public class MainWindow extends JFrame {
             this.addTaskButton.addActionListener(actionEvent -> {
                 try {
                     todoList.add(NewTaskField().readText());
-                    TaskList().setSelectedIndex(todoList.getSize() - 1);
                 } catch (EmptyFieldException ignored) {}
             });
         }
@@ -125,19 +122,18 @@ public class MainWindow extends JFrame {
 
     private Component TasksListScrollPane() {
         if (this.taskListScrollPane == null) {
-            this.taskListScrollPane = new JScrollPane(TaskList());
+            this.taskListScrollPane = new JScrollPane(TaskTable());
         }
 
         return this.taskListScrollPane;
     }
 
-    private JList<Todo> TaskList() {
-        if (this.taskList == null) {
-            this.taskList = new JList<>();
-            this.taskList.setModel(this.todoListModel);
+    private JTable TaskTable() {
+        if (this.table == null) {
+            this.table = new JTable(this.todoTableModel);
         }
 
-        return this.taskList;
+        return this.table;
     }
 
     private JButton DeleteButton() {
@@ -145,7 +141,7 @@ public class MainWindow extends JFrame {
             this.deleteButton = new JButton(" Delete");
 
             this.deleteButton.addActionListener(actionEvent ->
-                    todoList.remove(TaskList().getSelectedIndex()));
+                    todoList.remove(TaskTable().getSelectedRow()));
         }
         return this.deleteButton;
     }

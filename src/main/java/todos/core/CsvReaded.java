@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class DefaultReaded implements Readed {
+public class CsvReaded implements Readed {
 
     private final FileInputStream in;
 
-    public DefaultReaded(FileInputStream in) {
+    public CsvReaded(FileInputStream in) {
         this.in = in;
     }
 

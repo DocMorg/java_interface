@@ -1,20 +1,20 @@
 package todos.core.Observer;
 
-import todos.gui.TodoListModel;
+import todos.gui.TodoTableModel;
 
 
 /**
- * Default implementation of {@link EventListened} linked to TodoListModel
+ * Default implementation of {@link EventListened} linked to todoTableModel
  * in constructor
  */
 public class DefaultEventListened implements EventListened {
 
-    private final TodoListModel model;
+    private final TodoTableModel model;
 
     /**
-     * @param model - links TodoListModel instance to listener
+     * @param model - links todoTableModel instance to listener
      */
-    public DefaultEventListened(TodoListModel model) {
+    public DefaultEventListened(TodoTableModel model) {
         this.model = model;
     }
 
