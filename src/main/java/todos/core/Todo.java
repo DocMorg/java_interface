@@ -6,15 +6,15 @@ public interface Todo {
 //     * Object which has abilities to save and load itself
 //     * using {@link Saved} object's methods
 //     *
-//     *
-//     * @param loader - {@link Loader} which loads data
+//     *  @param loaded - {@link Loaded} object which loads readed data
+//     * @param readed - {@link Readed} object which reads data
 //     */
 //
-//    Todo loadTodo(Loader loader);
+//    void loadTodo(Loaded loaded, Readed readed);
 
     /**
      *
-     * @param saved - {@link Saved} which saves data
+     * @param saved - {@link Saved} object which saves data
      */
     void saveTodo(Saved saved);
 
