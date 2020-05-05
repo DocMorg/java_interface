@@ -1,16 +1,16 @@
-package todos.core;
+package todos.core.Outputs;
 
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CsvSaved implements Saved {
+public class CsvOutput implements Output {
 
     private final PrintStream out;
     private final Map<String, String> map = new LinkedHashMap<>();
 
-    public CsvSaved(PrintStream out) {
+    public CsvOutput(PrintStream out) {
         this.out = out;
     }
 
@@ -20,7 +20,7 @@ public class CsvSaved implements Saved {
     }
 
     @Override
-    public void save() {
+    public Output save() {
         Iterator<Map.Entry<String, String>> iterator = this.map.entrySet().iterator();
         Map.Entry<String, String> entry;
         while (iterator.hasNext()) {
@@ -36,5 +36,6 @@ public class CsvSaved implements Saved {
         }
         this.map.clear();
         this.out.flush();
+        return this;
     }
 }
