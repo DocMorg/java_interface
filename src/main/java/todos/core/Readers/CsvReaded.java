@@ -1,4 +1,4 @@
-package todos.core;
+package todos.core.Readers;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
