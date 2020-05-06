@@ -20,7 +20,7 @@ public class TodoApp {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("GTK+".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
-                    break; //preferred!
+                    break;
                 }
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());

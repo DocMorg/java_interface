@@ -1,16 +1,21 @@
 package todos.core;
 
+import todos.core.Outputs.Output;
+import todos.core.Readers.Readed;
+
 public interface TodoList {
 
 
     void remove(int i);
     void add(Todo item);
-    int getSize();
-    Todo getElementAt(int i);
+    void add(Todo item, int i);
     void loadTodo(Readed readed);
+    void saveTodo(Output output);
 
-    void saveTodo(Saved saved);
-
+    int getSize();
+    String getElementAt(int i, int j);
+    String getColumnName(int i);
+    int getColumnCount();
 
 
 }

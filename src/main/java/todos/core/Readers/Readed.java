@@ -1,4 +1,4 @@
-package todos.core;
+package todos.core.Readers;
 
 import java.util.List;
 

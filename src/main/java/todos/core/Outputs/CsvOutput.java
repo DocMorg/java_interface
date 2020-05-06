@@ -15,12 +15,13 @@ public class CsvOutput implements Output {
     }
 
     @Override
-    public void add(String name, String value)  {
+    public Output add(String name, String value)  {
         this.map.put(name, value);
+        return this;
     }
 
     @Override
-    public Output save() {
+    public void save() {
         Iterator<Map.Entry<String, String>> iterator = this.map.entrySet().iterator();
         Map.Entry<String, String> entry;
         while (iterator.hasNext()) {
@@ -36,6 +37,5 @@ public class CsvOutput implements Output {
         }
         this.map.clear();
         this.out.flush();
-        return this;
     }
 }

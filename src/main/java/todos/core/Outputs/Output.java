@@ -1,6 +1,6 @@
-package todos.core;
+package todos.core.Outputs;
 
-public interface Saved {
+public interface Output {
 
     /**
      * Adds named portion of data to be accumulated for outputting. Invoke
@@ -11,7 +11,7 @@ public interface Saved {
      * @param value value needs to be saved
      */
 
-    void add(String name, String value);
+    Output add(String name, String value);
 
     /**
      * Saves added content to target destination in destination-appropriate form.

@@ -1,6 +1,7 @@
 package todos.gui;
 
 
+import todos.core.DefaultTodo;
 import todos.core.Todo;
 import todos.core.TodoList;
 
@@ -25,16 +26,49 @@ public class TodoTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return this.todoList.getSize();
+        return todoList.getSize();
     }
 
     @Override
     public int getColumnCount() {
-        return 1;
+        return todoList.getColumnCount();
     }
 
     @Override
-    public Object getValueAt(int i, int i1) {
-        return this.todoList.getElementAt(i);
+    public Object getValueAt(int i, int j) {
+        return todoList.getElementAt(i, j);
+    }
+
+    @Override
+    public String getColumnName(int index) {
+        return todoList.getColumnName(index);
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
+
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+        if(!isCellEditable(row, column)){
+            return;
+        }
+
+        int col1 = 0;
+        if (column != 1){
+            col1 = 1;
+        }
+        String oldField = getValueAt(row, col1).toString();
+        todoList.remove(row);
+        DefaultTodo todo;
+        if (col1 == 0){
+            todo = new DefaultTodo(oldField, value.toString());
+        } else {
+            todo = new DefaultTodo(value.toString(), oldField);
+        }
+        todoList.add(todo, row);
+
+//        }
     }
 }

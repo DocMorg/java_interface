@@ -1,12 +1,16 @@
 package todos.gui;
 
-
 import todos.core.*;
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListened;
+import todos.core.Outputs.CsvOutput;
+import todos.core.Readers.CsvReaded;
+import todos.core.Readers.Readed;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -53,13 +57,15 @@ public class MainWindow extends JFrame {
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 try {
-                    todoList.saveTodo(new CsvSaved(new PrintStream(file(filename))));
+                    todoList.saveTodo(new CsvOutput(new PrintStream(file(filename))));
                 } catch (FileNotFoundException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
                 }
                 System.exit(0);
             }
         });
+
+        this.getRootPane().setDefaultButton(AddTaskButton());
 
         this.setMinimumSize(new Dimension(320, 270));
         this.pack();
@@ -129,10 +135,11 @@ public class MainWindow extends JFrame {
     }
 
     private JTable TaskTable() {
-        if (this.table == null) {
-            this.table = new JTable(this.todoTableModel);
+        if (table == null) {
+            table = new JTable(todoTableModel);
         }
-
+        table.getDefaultEditor(String.class);
+//        DefaultCellEditor
         return this.table;
     }
 
