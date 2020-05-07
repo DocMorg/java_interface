@@ -15,6 +15,11 @@ public class CsvOutput implements Output {
     }
 
     @Override
+    public Output addHeader(String header) {
+        return this;
+    }
+
+    @Override
     public Output add(String name, String value)  {
         this.map.put(name, value);
         return this;

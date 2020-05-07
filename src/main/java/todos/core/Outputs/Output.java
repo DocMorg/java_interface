@@ -2,6 +2,14 @@ package todos.core.Outputs;
 
 public interface Output {
 
+
+    /**
+     * Used to specify data for serialized object header.
+     *
+     * @param header - type-tag name provided
+     */
+    Output addHeader(String header);
+
     /**
      * Adds named portion of data to be accumulated for outputting. Invoke
      * {@link #save()} after last call of this method to indicate that all

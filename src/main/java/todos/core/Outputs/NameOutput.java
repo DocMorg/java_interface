@@ -8,6 +8,11 @@ public class NameOutput implements Output {
     private String lineIn;
 
     @Override
+    public Output addHeader(String header) {
+        return this;
+    }
+
+    @Override
     public Output add(String name, String value) {
         if (name.equals("name") ) {
             this.lineIn = value;

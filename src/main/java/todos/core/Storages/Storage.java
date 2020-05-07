@@ -1,16 +1,17 @@
-package todos.core;
+package todos.core.Storages;
 
 import todos.core.Outputs.Output;
-import todos.core.Readers.Readed;
+import todos.core.Todos.Todo;
 
-public interface TodoList {
+import java.util.List;
+
+public interface Storage {
 
 
     void remove(int i);
     void add(Todo item);
     void add(Todo item, int i);
-    void loadTodo(Readed readed);
-    void saveTodo(Output output);
+    List<Todo> loadTodo();
 
     int getSize();
     String getElementAt(int i, int j);

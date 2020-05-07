@@ -1,4 +1,4 @@
-package todos.core;
+package todos.core.Todos;
 
 import todos.core.Outputs.Output;
 
@@ -22,9 +22,9 @@ public class DefaultTodo implements Todo {
     }
 
     public void saveTodo(Output output) {
-        output.add("name", this.name)
-            .add("date", this.date)
-            .save();
+        output.addHeader("csv")
+            .add("name", this.name)
+            .add("date", this.date);
     }
 
 }

@@ -1,8 +1,8 @@
 package todos.gui;
 
-import todos.core.DefaultTodo;
+import todos.core.Todos.DefaultTodo;
 import todos.core.Exceptions.EmptyFieldException;
-import todos.core.Todo;
+import todos.core.Todos.Todo;
 
 import javax.swing.*;
 

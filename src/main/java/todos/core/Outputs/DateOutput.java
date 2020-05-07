@@ -5,6 +5,11 @@ public class DateOutput implements Output {
     private String lineIn;
 
     @Override
+    public Output addHeader(String header) {
+        return this;
+    }
+
+    @Override
     public Output add(String name, String value) {
         if (name.equals("date") ) {
             this.lineIn = value;

@@ -1,19 +1,17 @@
 package todos.gui;
 
 
-import todos.core.DefaultTodo;
-import todos.core.Todo;
-import todos.core.TodoList;
+import todos.core.Todos.DefaultTodo;
+import todos.core.Storages.Storage;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 public class TodoTableModel extends AbstractTableModel {
 
-    private final TodoList todoList;
+    private final Storage storage;
 
-    public TodoTableModel(TodoList todoList) {
-        this.todoList = todoList;
+    public TodoTableModel(Storage storage) {
+        this.storage = storage;
     }
 
     public void remove(int i) {
@@ -26,22 +24,22 @@ public class TodoTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return todoList.getSize();
+        return storage.getSize();
     }
 
     @Override
     public int getColumnCount() {
-        return todoList.getColumnCount();
+        return storage.getColumnCount();
     }
 
     @Override
     public Object getValueAt(int i, int j) {
-        return todoList.getElementAt(i, j);
+        return storage.getElementAt(i, j);
     }
 
     @Override
     public String getColumnName(int index) {
-        return todoList.getColumnName(index);
+        return storage.getColumnName(index);
     }
 
     @Override
@@ -60,14 +58,14 @@ public class TodoTableModel extends AbstractTableModel {
             col1 = 1;
         }
         String oldField = getValueAt(row, col1).toString();
-        todoList.remove(row);
+        storage.remove(row);
         DefaultTodo todo;
         if (col1 == 0){
             todo = new DefaultTodo(oldField, value.toString());
         } else {
             todo = new DefaultTodo(value.toString(), oldField);
         }
-        todoList.add(todo, row);
+        storage.add(todo, row);
 
 //        }
     }

@@ -4,10 +4,11 @@ import todos.gui.MainWindow;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
+import java.io.FileNotFoundException;
 
 public class TodoApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         configureLookAndFeel();
 
         MainWindow window = new MainWindow();

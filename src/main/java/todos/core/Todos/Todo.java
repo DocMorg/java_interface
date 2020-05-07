@@ -1,4 +1,4 @@
-package todos.core;
+package todos.core.Todos;
 
 import todos.core.Outputs.Output;
 

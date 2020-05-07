@@ -1,20 +1,13 @@
 package todos.gui;
 
-import todos.core.*;
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListened;
-import todos.core.Outputs.CsvOutput;
-import todos.core.Readers.CsvReaded;
-import todos.core.Readers.Readed;
+import todos.core.Storages.CsvStorage;
+import todos.core.Storages.Storage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.*;
-import java.util.Objects;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createVerticalStrut;
@@ -30,50 +23,28 @@ public class MainWindow extends JFrame {
     private JButton deleteButton;
     private JTable table;
     private final TodoTableModel todoTableModel;
-    private final TodoList todoList;
-    private final String filename = "backup.csv";
+    private final Storage storage;
 
-    public MainWindow() {
-        this.todoList = new DefaultTodoList();
+    public MainWindow() throws FileNotFoundException {
+        this.storage = new CsvStorage("backup.csv");
+
         // linking model to our list using observer pattern realization
-        this.todoTableModel = new TodoTableModel(this.todoList);
-        ((DefaultTodoList) this.todoList).events.subscribe("add",
+        this.todoTableModel = new TodoTableModel(this.storage);
+        ((CsvStorage) this.storage).events.subscribe("add",
                 new DefaultEventListened(this.todoTableModel));
-        ((DefaultTodoList) this.todoList).events.subscribe("remove",
+        ((CsvStorage) this.storage).events.subscribe("remove",
                 new DefaultEventListened(this.todoTableModel));
-        // Reading already written data
-        try {
-            Readed readed = new CsvReaded(new FileInputStream(file(filename)));
-            this.todoList.loadTodo(readed);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
+        // Reading already written data
+        storage.loadTodo();
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Setting onclose method for saving all changes in list
-        this.addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent e){
-                try {
-                    todoList.saveTodo(new CsvOutput(new PrintStream(file(filename))));
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
-                System.exit(0);
-            }
-        });
 
         this.getRootPane().setDefaultButton(AddTaskButton());
 
         this.setMinimumSize(new Dimension(320, 270));
         this.pack();
-    }
-
-    private File file(String filename){
-        return new File((Objects.requireNonNull(getClass().getClassLoader().
-                getResource(filename)).getFile()));
     }
 
     private Container getMainContentPane() {
@@ -118,7 +89,7 @@ public class MainWindow extends JFrame {
 
             this.addTaskButton.addActionListener(actionEvent -> {
                 try {
-                    todoList.add(NewTaskField().readText());
+                    storage.add(NewTaskField().readText());
                 } catch (EmptyFieldException ignored) {}
             });
         }
@@ -138,7 +109,7 @@ public class MainWindow extends JFrame {
         if (table == null) {
             table = new JTable(todoTableModel);
         }
-        table.getDefaultEditor(String.class);
+//        table.getDefaultEditor(String.class);
 //        DefaultCellEditor
         return this.table;
     }
@@ -148,7 +119,7 @@ public class MainWindow extends JFrame {
             this.deleteButton = new JButton(" Delete");
 
             this.deleteButton.addActionListener(actionEvent ->
-                    todoList.remove(TaskTable().getSelectedRow()));
+                    storage.remove(TaskTable().getSelectedRow()));
         }
         return this.deleteButton;
     }
