@@ -39,8 +39,8 @@ public class CsvStorage implements Storage {
                 Output csvout = new CsvOutput(new PrintStream(file));
                 for (Todo k : list) {
                     k.saveTodo(csvout);
+                    csvout.save();
                 }
-                csvout.save();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
