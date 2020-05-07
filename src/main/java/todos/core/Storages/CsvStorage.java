@@ -1,6 +1,7 @@
 package todos.core.Storages;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import todos.core.Outputs.CsvOutput;
 import todos.core.Todos.DefaultTodo;
 import todos.core.Observer.EventsManaged;
@@ -16,15 +17,13 @@ import java.util.Objects;
 
 public class CsvStorage implements Storage {
 
-    private final String filename;
-    private final CSVReader csvReader;
+    private final File file;
     public EventsManaged events;
     String[] columnNames = {"Name", "Date"};
 
-    public CsvStorage(String filename) throws FileNotFoundException {
+    public CsvStorage(String filename) {
         this.events = new EventsManaged("add", "remove");
-        this.filename = filename;
-        this.csvReader =  new CSVReader(new FileReader(file(filename)));
+        this.file = file(filename);
     }
 
     private File file(String filename){
@@ -33,18 +32,23 @@ public class CsvStorage implements Storage {
     }
 
     public void remove(int i) {
-        List<Todo> list = loadTodo();
-        list.remove(i);
-        try {
-            Output csvout = new CsvOutput(new PrintStream(file(filename)));
-            for (Todo k: list){
-                k.saveTodo(csvout);
+        if (i != -1) {
+            List<Todo> list = loadTodo();
+            list.remove(i);
+            try {
+                Output csvout = new CsvOutput(new PrintStream(file));
+                for (Todo k : list) {
+                    k.saveTodo(csvout);
+                }
+                csvout.save();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-            csvout.save();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            events.notify("remove", i);
         }
-        events.notify("remove", i);
+        else{
+            System.out.println("Nothing to removee, index is -1");
+        }
     }
 
     /**
@@ -52,7 +56,7 @@ public class CsvStorage implements Storage {
      */
     public void add(Todo item) {
         try {
-            Output csvout = new CsvOutput(new PrintStream(file(filename)));
+            Output csvout = new CsvOutput(new PrintStream(file));
             for (Todo todo: loadTodo()){
                 todo.saveTodo(csvout);
             }
@@ -73,7 +77,7 @@ public class CsvStorage implements Storage {
         List<Todo> list = loadTodo();
         list.add(i, item);
         try {
-            Output csvout = new CsvOutput(new PrintStream(file(filename)));
+            Output csvout = new CsvOutput(new PrintStream(file));
             for (Todo k: list){
                 k.saveTodo(csvout);
             }
@@ -104,9 +108,10 @@ public class CsvStorage implements Storage {
 
     public int getSize() {
         int size = 0;
-        try  {
+        try {
+            CSVReader csvReader = new CSVReader( new FileReader(file));
             size = csvReader.readAll().size();
-        } catch (IOException e) {
+        } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
         return size;
@@ -115,11 +120,12 @@ public class CsvStorage implements Storage {
     public List<Todo> loadTodo() {
         List<Todo> todolist = new LinkedList<>();
         try {
+            CSVReader csvReader = new CSVReader( new FileReader(file));
             for (String[] strings: csvReader.readAll()){
                 todolist.add(new DefaultTodo(strings[0], strings[1]));
                 events.notify("add", getSize() - 1);
             }
-        } catch (IOException e) {
+        } catch (CsvException | IOException e) {
             e.printStackTrace();
         }
         return todolist;

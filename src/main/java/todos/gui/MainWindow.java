@@ -25,7 +25,7 @@ public class MainWindow extends JFrame {
     private final TodoTableModel todoTableModel;
     private final Storage storage;
 
-    public MainWindow() throws FileNotFoundException {
+    public MainWindow() {
         this.storage = new CsvStorage("backup.csv");
 
         // linking model to our list using observer pattern realization
@@ -37,6 +37,7 @@ public class MainWindow extends JFrame {
 
         // Reading already written data
         storage.loadTodo();
+
         this.setContentPane(this.getMainContentPane());
         this.setTitle("Todo List");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
