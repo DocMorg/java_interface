@@ -56,9 +56,11 @@ public class CsvStorage implements Storage {
      */
     public void add(Todo item) {
         try {
-            Output csvout = new CsvOutput(new PrintStream(file));
-            for (Todo todo: loadTodo()){
+            List<Todo> todos = loadTodo();
+        	Output csvout = new CsvOutput(new PrintStream(file));
+            for (Todo todo: todos){
                 todo.saveTodo(csvout);
+                csvout.save();
             }
             item.saveTodo(csvout);
             csvout.save();
