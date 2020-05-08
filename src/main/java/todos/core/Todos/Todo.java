@@ -18,6 +18,6 @@ public interface Todo {
      *
      * @param output - {@link Output} object which saves data
      */
-    void saveTodo(Output output);
+    void saveTodo(Output output, int i);
 
 }

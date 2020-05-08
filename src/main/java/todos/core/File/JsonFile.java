@@ -50,9 +50,11 @@ public class JsonFile implements NewFile {
     public void save(List<Todo> list) {
         try {
             Output jsonout = new JsonOutput(new PrintStream(file));
+            int i = 0;
             for (Todo todo: list){
-                todo.saveTodo(jsonout);
+                todo.saveTodo(jsonout, i);
                 jsonout.save();
+                i++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

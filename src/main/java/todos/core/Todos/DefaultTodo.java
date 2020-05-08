@@ -21,8 +21,8 @@ public class DefaultTodo implements Todo {
         this.date = dateFormat.format(tomorrow);
     }
 
-    public void saveTodo(Output output) {
-        output.addHeader("")
+    public void saveTodo(Output output, int i) {
+        output.addHeader(String.valueOf(i))
             .add("name", this.name)
             .add("date", this.date);
     }
