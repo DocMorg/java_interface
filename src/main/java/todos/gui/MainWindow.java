@@ -3,6 +3,7 @@ package todos.gui;
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListened;
 import todos.core.Storages.CsvStorage;
+import todos.core.Storages.JsonStorage;
 import todos.core.Storages.Storage;
 
 import javax.swing.*;
@@ -26,13 +27,19 @@ public class MainWindow extends JFrame {
     private final Storage storage;
 
     public MainWindow() {
-        this.storage = new CsvStorage("backup.csv");
+//        this.storage = new CsvStorage("backup.csv");
+        this.storage = new JsonStorage("backup.json");
 
         // linking model to our list using observer pattern realization
+//        this.todoTableModel = new TodoTableModel(this.storage);
+//        ((CsvStorage) this.storage).events.subscribe("add",
+//                new DefaultEventListened(this.todoTableModel));
+//        ((CsvStorage) this.storage).events.subscribe("remove",
+//                new DefaultEventListened(this.todoTableModel));
         this.todoTableModel = new TodoTableModel(this.storage);
-        ((CsvStorage) this.storage).events.subscribe("add",
+        ((JsonStorage) this.storage).events.subscribe("add",
                 new DefaultEventListened(this.todoTableModel));
-        ((CsvStorage) this.storage).events.subscribe("remove",
+        ((JsonStorage) this.storage).events.subscribe("remove",
                 new DefaultEventListened(this.todoTableModel));
 
         // Reading already written data

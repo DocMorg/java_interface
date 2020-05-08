@@ -22,7 +22,7 @@ public class DefaultTodo implements Todo {
     }
 
     public void saveTodo(Output output) {
-        output.addHeader("csv")
+        output.addHeader("")
             .add("name", this.name)
             .add("date", this.date);
     }
