@@ -1,37 +1,40 @@
 package todos.core.Outputs;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.io.PrintStream;
 
 public class JsonOutput implements Output {
 
     private final PrintStream out;
     private JSONArray jsonArray;
+    private JSONObject jsonObject;
 
     public JsonOutput(PrintStream out) {
         this.out = out;
+        this.jsonArray = new JSONArray();
     }
 
     @Override
     public Output addHeader(String header) {
-        jsonArray = new JSONArray();
+        this.jsonObject = new JSONObject();
         return this;
     }
 
     @Override
     public Output add(String name, String value) {
-        JSONObject data = new JSONObject();
-        data.put(name, value);
-        jsonArray.put(data);
+        if (jsonObject.isEmpty()) {
+            jsonObject.put(name, value);
+        } else{
+            jsonObject.put(name, value);
+            jsonArray.add(jsonObject);
+        }
         return this;
     }
 
     @Override
     public void save() {
-        JSONObject obj = new JSONObject();
-        obj.put("obj", jsonArray);
-        out.print(obj.toString());
+        out.print(jsonArray.toString());
         this.out.flush();
     }
 }

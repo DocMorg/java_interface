@@ -77,7 +77,7 @@ public class JsonStorage implements Storage {
         } else {
             output = new DateOutput();
         }
-        loadTodo().get(i).saveTodo(output, i);
+        loadTodo().get(i).saveTodo(output);
         return output.toString();
     }
 

@@ -24,15 +24,8 @@ public class JsonFile implements NewFile {
     public List<String[]> read() {
         List<String[]> data = new LinkedList<>();
         JSONParser parser = new JSONParser();
-        JSONArray jsonArray = new JSONArray();
         try {
-            try {
-                jsonArray = (JSONArray) (parser.parse(new FileReader(file)));
-            }catch (ClassCastException e){
-                Object obj = parser.parse(new FileReader(file));
-                jsonArray.add(obj);
-            }
-
+            JSONArray jsonArray = (JSONArray) (parser.parse(new FileReader(file)));
             for (Object o : jsonArray)
             {
                 JSONObject obj = (JSONObject) o;
@@ -40,9 +33,7 @@ public class JsonFile implements NewFile {
                 data.add(array);
             }
 
-        } catch (IOException | ParseException ignored) {
-
-        }
+        } catch (IOException | ParseException ignored){}
         return data;
     }
 
@@ -50,12 +41,10 @@ public class JsonFile implements NewFile {
     public void save(List<Todo> list) {
         try {
             Output jsonout = new JsonOutput(new PrintStream(file));
-            int i = 0;
             for (Todo todo: list){
-                todo.saveTodo(jsonout, i);
-                jsonout.save();
-                i++;
+                todo.saveTodo(jsonout);
             }
+            jsonout.save();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
