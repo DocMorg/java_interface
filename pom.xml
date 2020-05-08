@@ -45,6 +45,13 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.jcabi.incubator/xembly -->
+        <dependency>
+            <groupId>com.jcabi.incubator</groupId>
+            <artifactId>xembly</artifactId>
+            <version>0.23.0</version>
+        </dependency>
+
     </dependencies>
 
 
