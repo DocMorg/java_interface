@@ -2,14 +2,10 @@ package todos.gui;
 
 import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Observer.DefaultEventListened;
-import todos.core.Storages.CsvStorage;
-import todos.core.Storages.JsonStorage;
-import todos.core.Storages.Storage;
-import todos.core.Storages.XmlStorage;
+import todos.core.Storages.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createVerticalStrut;
@@ -28,27 +24,15 @@ public class MainWindow extends JFrame {
     private final Storage storage;
 
     public MainWindow() {
-//        this.storage = new CsvStorage("backup.csv");
-//        this.storage = new JsonStorage("backup.json");
-        this.storage = new XmlStorage("backup.xml");
+        this.storage = new FileStorage("backup.xml");
 
         // linking model to our list using observer pattern realization
 
         this.todoTableModel = new TodoTableModel(this.storage);
-//        ((CsvStorage) this.storage).events.subscribe("add",
-//                new DefaultEventListened(this.todoTableModel));
-//        ((CsvStorage) this.storage).events.subscribe("remove",
-//                new DefaultEventListened(this.todoTableModel));
 
-
-        ((XmlStorage) this.storage).events.subscribe("add",
+        ((FileStorage) this.storage).events.subscribe("add",
                 new DefaultEventListened(this.todoTableModel));
-        ((XmlStorage) this.storage).events.subscribe("remove",
-                new DefaultEventListened(this.todoTableModel));
-
-        ((XmlStorage) this.storage).events.subscribe("add",
-                new DefaultEventListened(this.todoTableModel));
-        ((XmlStorage) this.storage).events.subscribe("remove",
+        ((FileStorage) this.storage).events.subscribe("remove",
                 new DefaultEventListened(this.todoTableModel));
 
         // Reading already written data

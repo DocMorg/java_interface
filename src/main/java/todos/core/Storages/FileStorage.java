@@ -1,7 +1,10 @@
 package todos.core.Storages;
 
+
+import todos.core.File.CsvFile;
 import todos.core.File.JsonFile;
 import todos.core.File.NewFile;
+import todos.core.File.XmlFile;
 import todos.core.Observer.EventsManaged;
 import todos.core.Outputs.DateOutput;
 import todos.core.Outputs.NameOutput;
@@ -14,23 +17,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonStorage implements Storage {
+public class FileStorage implements Storage {
 
-    private final NewFile jsonFile;
+    private NewFile newFile;
     public EventsManaged events;
     String[] columnNames = {"Name", "Date"};
 
-    public JsonStorage(String filename) {
+    public FileStorage(String filename) {
         this.events = new EventsManaged("add", "remove");
-        this.jsonFile = new JsonFile(file(filename));
+        String ext = filename.split("\\.")[1];
+        switch (ext){
+            case "xml": this.newFile = new XmlFile(file(filename));
+                        break;
+            case "csv": this.newFile = new CsvFile(file(filename));
+                        break;
+            case "json": this.newFile = new JsonFile(file(filename));
+        }
+
     }
 
-    @Override
+    private File file(String filename){
+        return new File((Objects.requireNonNull(getClass().getClassLoader().
+                getResource(filename)).getFile()));
+    }
+
     public void remove(int i) {
         if (i != -1) {
             List<Todo> list = loadTodo();
             list.remove(i);
-            jsonFile.save(list);
+            newFile.save(list);
             events.notify("remove", i);
         }
         else{
@@ -38,38 +53,27 @@ public class JsonStorage implements Storage {
         }
     }
 
-    @Override
+    /**
+     * @param item - {@link Todo} item to add to the list
+     */
     public void add(Todo item) {
         List<Todo> list = loadTodo();
         list.add(item);
-        jsonFile.save(list);
+        newFile.save(list);
         events.notify("add", getSize() - 1);
     }
 
-    @Override
+    /**
+     * @param item - {@link Todo} item to add to the list to the exact place
+     * @param i - index to which new item will be added
+     */
     public void add(Todo item, int i) {
         List<Todo> list = loadTodo();
         list.add(i, item);
-        jsonFile.save(list);
+        newFile.save(list);
         events.notify("add", i);
     }
 
-    @Override
-    public List<Todo> loadTodo() {
-        List<Todo> todolist = new LinkedList<>();
-        for (String[] strings: jsonFile.read()){
-            todolist.add(new DefaultTodo(strings[0], strings[1]));
-//            events.notify("add", getSize() - 1);
-        }
-        return todolist;
-    }
-
-    @Override
-    public int getSize() {
-        return jsonFile.read().size();
-    }
-
-    @Override
     public String getElementAt(int i, int j) {
         Output output;
         if (j == 0){
@@ -81,18 +85,23 @@ public class JsonStorage implements Storage {
         return output.toString();
     }
 
-    @Override
     public String getColumnName(int i){
         return  columnNames[i];
     }
 
-    @Override
     public int getColumnCount(){
         return  columnNames.length;
     }
 
-    private File file(String filename){
-        return new File((Objects.requireNonNull(getClass().getClassLoader().
-                getResource(filename)).getFile()));
+    public int getSize() {
+        return newFile.read().size();
+    }
+
+    public List<Todo> loadTodo() {
+        List<Todo> todolist = new LinkedList<>();
+        for (String[] strings: newFile.read()){
+            todolist.add(new DefaultTodo(strings[0], strings[1]));
+        }
+        return todolist;
     }
 }
