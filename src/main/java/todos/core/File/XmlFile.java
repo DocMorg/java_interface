@@ -3,26 +3,18 @@ package todos.core.File;
 import org.xml.sax.SAXException;
 import todos.core.Outputs.Output;
 import todos.core.Outputs.XmlOutput;
-import todos.core.Todos.DefaultTodo;
 import todos.core.Todos.Todo;
 
 import org.w3c.dom.*;
 import java.io.File;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.XMLConstants;
 import javax.xml.parsers.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.*;
-import java.util.Objects;
 
 public class XmlFile implements NewFile {
 
