@@ -38,7 +38,7 @@ public class XmlFile implements NewFile {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document xmlDocument = builder.parse(file("backup.xml"));
+            Document xmlDocument = builder.parse(file);
             XPath xPath = XPathFactory.newInstance().newXPath();
             String expression = "/data/item";
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
@@ -60,7 +60,7 @@ public class XmlFile implements NewFile {
     public void save(List<Todo> list) {
         Output xmlout = null;
         try {
-            xmlout = new XmlOutput(new PrintStream(file("backup.xml")));
+            xmlout = new XmlOutput(new PrintStream(new PrintStream(file)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -68,10 +68,5 @@ public class XmlFile implements NewFile {
             todo.saveTodo(xmlout);
         }
         xmlout.save();
-    }
-
-    private File file(String filename){
-        return new File((Objects.requireNonNull(getClass().getClassLoader().
-                getResource(filename)).getFile()));
     }
 }

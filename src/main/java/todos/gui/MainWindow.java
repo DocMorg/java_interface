@@ -5,6 +5,7 @@ import todos.core.Observer.DefaultEventListened;
 import todos.core.Storages.CsvStorage;
 import todos.core.Storages.JsonStorage;
 import todos.core.Storages.Storage;
+import todos.core.Storages.XmlStorage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,18 +29,26 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
 //        this.storage = new CsvStorage("backup.csv");
-        this.storage = new JsonStorage("backup.json");
+//        this.storage = new JsonStorage("backup.json");
+        this.storage = new XmlStorage("backup.xml");
 
         // linking model to our list using observer pattern realization
-//        this.todoTableModel = new TodoTableModel(this.storage);
+
+        this.todoTableModel = new TodoTableModel(this.storage);
 //        ((CsvStorage) this.storage).events.subscribe("add",
 //                new DefaultEventListened(this.todoTableModel));
 //        ((CsvStorage) this.storage).events.subscribe("remove",
 //                new DefaultEventListened(this.todoTableModel));
-        this.todoTableModel = new TodoTableModel(this.storage);
-        ((JsonStorage) this.storage).events.subscribe("add",
+
+
+        ((XmlStorage) this.storage).events.subscribe("add",
                 new DefaultEventListened(this.todoTableModel));
-        ((JsonStorage) this.storage).events.subscribe("remove",
+        ((XmlStorage) this.storage).events.subscribe("remove",
+                new DefaultEventListened(this.todoTableModel));
+
+        ((XmlStorage) this.storage).events.subscribe("add",
+                new DefaultEventListened(this.todoTableModel));
+        ((XmlStorage) this.storage).events.subscribe("remove",
                 new DefaultEventListened(this.todoTableModel));
 
         // Reading already written data
