@@ -4,6 +4,7 @@ import org.xembly.Directives;
 import org.xembly.ImpossibleModificationException;
 import org.xembly.Xembler;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,12 +12,12 @@ import java.util.Map;
 public class XmlOutput implements Output {
 
     private final PrintStream out;
-    private final Map<String, String> map = new LinkedHashMap<>();
-    private String xml;
+    private final Map<String, String> map;
     private String buffer;
 
     public XmlOutput(PrintStream out) {
         this.out = out;
+        this.map = new LinkedHashMap<>();
     }
 
     @Override
