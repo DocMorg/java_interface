@@ -1,13 +1,19 @@
 package todos.core.Outputs;
 
-public interface Output {
+/**
+ * This object is for printing other objects to files,
+ * PrintStreams and etc.
+ */
 
+public interface Output {
 
     /**
      * Used to specify data for serialized object header.
      *
      * @param header - type-tag name provided
+     * @return Output
      */
+
     Output addHeader(String header);
 
     /**
@@ -17,6 +23,7 @@ public interface Output {
      *
      * @param name name of the variable
      * @param value value needs to be saved
+     * @return Output
      */
 
     Output add(String name, String value);
@@ -24,6 +31,7 @@ public interface Output {
     /**
      * Saves added content to target destination in destination-appropriate form.
      */
+
     void save();
 
 }
