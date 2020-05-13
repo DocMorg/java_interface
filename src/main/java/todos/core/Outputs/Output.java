@@ -11,7 +11,7 @@ public interface Output {
      * Used to specify data for serialized object header.
      *
      * @param header - type-tag name provided
-     * @return Output
+     * @return Output (self)
      */
 
     Output addHeader(String header);
@@ -23,7 +23,7 @@ public interface Output {
      *
      * @param name name of the variable
      * @param value value needs to be saved
-     * @return Output
+     * @return Output (self)
      */
 
     Output add(String name, String value);

@@ -25,7 +25,7 @@ public interface NewFile {
     /**
      * This method saves given List of objects into the file.
      *
-     * @param list - list of Todo objects which needs to be save
+     * @param list - list of {@link Todo} objects which needs to be save
      */
 
     void save(List<Todo> list);
