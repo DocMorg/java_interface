@@ -1,6 +1,7 @@
 package todos.gui;
 
 import todos.core.Storages.Storage;
+import todos.gui.Listeners.TableRemoveListener;
 
 import javax.swing.*;
 
@@ -9,6 +10,7 @@ public class DeleteTaskButton {
     public static final float CENTER_ALIGNMENT = 0.5F;
     private final JButton button;
     private final Storage storage;
+    private JTable table;
 
     DeleteTaskButton(Storage storage){
         this.button = new JButton(" Delete");
@@ -20,14 +22,15 @@ public class DeleteTaskButton {
         button.setAlignmentX(CENTER_ALIGNMENT);
     }
 
-    //TODO CHECK IT
-    public void bind(TasksListControls listControls) {
-//        jPanel.add(button, BorderLayout.EAST);
-        listControls.bind(button);
+    public void withTableAndControls(JPanel listControls) {
+        JButton button1 = new DeleteTaskButton(storage).button;
+        button1.addActionListener(new TableRemoveListener(storage, this.table));
+        listControls.add(button1);
     }
 
-    public void bind(JTable table){
-        button.addActionListener(actionEvent ->
-                storage.remove(table.getSelectedRow()));
+    public void withTable(JTable table){
+        this.table = table;
+        new DeleteTaskButton(storage).button.addActionListener(
+                new TableRemoveListener(storage, this.table));
     }
 }

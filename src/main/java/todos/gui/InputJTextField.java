@@ -15,7 +15,7 @@ public class InputJTextField{
           jTextField = new JTextField();
     }
 
-    protected Todo readText() throws EmptyFieldException {
+    public Todo readText() throws EmptyFieldException {
         if (jTextField.getText().length() > 0) {
             String text = jTextField.getText();
             this.emptyTextField();
@@ -30,7 +30,7 @@ public class InputJTextField{
         jTextField.setText("");
     }
 
-    protected void bind(JPanel panel){
+    protected void withPanel(JPanel panel){
         panel.add(jTextField, BorderLayout.CENTER);
     }
 

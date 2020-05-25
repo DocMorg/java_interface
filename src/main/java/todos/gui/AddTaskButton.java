@@ -5,31 +5,26 @@ import todos.core.Storages.Storage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class AddTaskButton {
 
     private final JButton button;
     private final Storage storage;
     private final InputJTextField textField;
+    private final ActionListener listener;
 
-    AddTaskButton(Storage storage, InputJTextField textField){
+    AddTaskButton(Storage storage, InputJTextField textField, ActionListener listener){
         this.button = new JButton("  Add  ");
         this.storage = storage;
         this.textField = textField;
-        setUpButton();
+        this.listener = listener;
+        button.addActionListener(listener);
     }
 
-    private void setUpButton(){
-        button.addActionListener(actionEvent -> {
-            try {
-                storage.add(textField.readText());
-            } catch (EmptyFieldException ignored) {}
-        });
-    }
-
-    public void bind(JPanel panel) {
-        panel.add(button, BorderLayout.EAST);
-//        panel.getRootPane().setDefaultButton(button);
+    public void withPanel(JPanel panel) {
+        AddTaskButton button2 = new AddTaskButton(storage,textField, listener);
+        panel.add(button2.button, BorderLayout.EAST);
     }
 
 }

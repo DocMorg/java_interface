@@ -12,7 +12,7 @@ public class NewTaskControlPanel {
     private final JPanel panel;
     private final Storage storage;
 
-    NewTaskControlPanel(Storage storage){
+    NewTaskControlPanel(Storage storage, InputJTextField textField){
         this.panel = new JPanel();
         this.storage = storage;
         setUpPanel();
@@ -25,8 +25,6 @@ public class NewTaskControlPanel {
         panel.setLayout(layout);
         InputJTextField textField = new InputJTextField();
         textField.bind(panel);
-        AddTaskButton addTaskButton = new AddTaskButton(storage, textField);
-        addTaskButton.bind(panel);
     }
 
     private void changeUI(){

@@ -1,6 +1,7 @@
 package todos.gui;
 
 import todos.core.Storages.Storage;
+import todos.gui.Listeners.AddListener;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -21,12 +22,20 @@ public class MainJPanel {
 
     private void setUpPanel(){
         panel.setLayout(new BorderLayout());
+        InputJTextField textField = new InputJTextField();
+        AddTaskButton addTaskButton = new AddTaskButton(storage, textField,
+                new AddListener(storage,textField));
+        DeleteTaskButton deleteTaskButton = new DeleteTaskButton(storage);
+        TaskTable taskTable = new TaskTable(todoTableModel, deleteTaskButton);
+
+
+
         NewTaskControlPanel controlPanel = new NewTaskControlPanel(storage);
         controlPanel.bind(panel);
         DeleteTaskButton deleteButton = new DeleteTaskButton(storage);
         TaskTable table = new TaskTable(todoTableModel, deleteButton);
         TaskListScrollPane scrollPane = new TaskListScrollPane();
-        table.bind(scrollPane);
+        table.withPane(scrollPane);
         scrollPane.bind(panel);
         TasksListControls listControls = new TasksListControls(storage);
         listControls.bind(panel);

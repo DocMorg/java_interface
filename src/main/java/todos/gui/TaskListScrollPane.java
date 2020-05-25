@@ -6,16 +6,13 @@ public class TaskListScrollPane {
 
     private final JScrollPane scrollPane;
 
-    TaskListScrollPane(){
+    TaskListScrollPane(TaskTable table){
         this.scrollPane = new JScrollPane();
+        table.withPane(scrollPane);
     }
 
     protected void bind(JPanel panel){
         panel.add(this.scrollPane);
-    }
-
-    protected void bind(JTable table){
-        this.scrollPane.setViewportView(table);
     }
 
 }

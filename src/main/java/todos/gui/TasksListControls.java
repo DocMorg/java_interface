@@ -13,29 +13,21 @@ public class TasksListControls {
     private final JPanel panel;
     private final Storage storage;
 
-    TasksListControls(Storage storage) {
+    TasksListControls(Storage storage, DeleteTaskButton deleteTaskButton, TaskTable taskTable) {
         this.panel = new JPanel();
         this.storage = storage;
+        deleteTaskButton.withTableAndControls();
         setUpPanel();
-        changeUI();
     }
 
     private void setUpPanel() {
         BoxLayout layout = new BoxLayout(this.panel, BoxLayout.Y_AXIS);
         this.panel.setLayout(layout);
-    }
-
-
-    private void changeUI(){
         this.panel.setBorder(createEmptyBorder(0, 5, 5, 5));
         this.panel.add(createVerticalStrut(10));
     }
 
-    protected void bind(JPanel panel){
+    protected void withPanel(JPanel panel){
         panel.add(this.panel);
-    }
-
-    protected void bind(JButton button){
-        this.panel.add(button);
     }
 }
