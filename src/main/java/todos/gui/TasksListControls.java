@@ -11,10 +11,12 @@ import static javax.swing.Box.createVerticalStrut;
 public class TasksListControls {
 
     private final JPanel panel;
+    private final DeleteTaskButton deleteTaskButton;
 
     TasksListControls(DeleteTaskButton deleteTaskButton) {
         this.panel = new JPanel();
-        deleteTaskButton.withTableAndControls(panel);
+        this.deleteTaskButton = deleteTaskButton;
+        this.deleteTaskButton.withTableAndControls(panel);
         setUpPanel();
     }
 
@@ -26,6 +28,7 @@ public class TasksListControls {
     }
 
     protected void withPanel(JPanel panel){
-        panel.add(this.panel);
+        JPanel panel1 = new TasksListControls(this.deleteTaskButton).panel;
+        panel.add(panel1);
     }
 }
