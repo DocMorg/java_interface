@@ -1,9 +1,8 @@
 package todos.gui;
 
-import todos.core.Storages.Storage;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
+import java.awt.*;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.Box.createVerticalStrut;
@@ -28,6 +27,7 @@ public class TasksListControls {
     }
 
     protected void withPanel(JPanel panel){
-        panel.add(new TasksListControls(this.deleteTaskButton).panel);
+        panel.add(new TasksListControls(this.deleteTaskButton).panel,
+                BorderLayout.EAST);
     }
 }

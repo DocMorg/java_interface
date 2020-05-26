@@ -1,6 +1,7 @@
 package todos.gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TaskListScrollPane {
 
@@ -14,7 +15,8 @@ public class TaskListScrollPane {
     }
 
     protected void withPanel(JPanel panel){
-        panel.add(new TaskListScrollPane(this.table).scrollPane);
+        panel.add(new TaskListScrollPane(this.table).scrollPane,
+                BorderLayout.CENTER);
     }
 
 }
