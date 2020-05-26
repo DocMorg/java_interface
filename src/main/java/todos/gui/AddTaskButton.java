@@ -22,8 +22,8 @@ public class AddTaskButton {
     }
 
     public void withPanel(JPanel panel) {
-        AddTaskButton button2 = new AddTaskButton(storage,textField, listener);
-        panel.add(button2.button, BorderLayout.EAST);
+        panel.add(new AddTaskButton(storage,textField, listener).button,
+                BorderLayout.EAST);
     }
 
 }

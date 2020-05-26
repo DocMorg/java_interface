@@ -31,8 +31,7 @@ public class InputJTextField{
     }
 
     protected void withPanel(JPanel panel){
-        JTextField jTextField = new InputJTextField().jTextField;
-        panel.add(jTextField, BorderLayout.CENTER);
+        panel.add(new InputJTextField().jTextField, BorderLayout.CENTER);
     }
 
 }

@@ -14,8 +14,7 @@ public class TaskListScrollPane {
     }
 
     protected void withPanel(JPanel panel){
-        JScrollPane scrollPane = new TaskListScrollPane(this.table).scrollPane;
-        panel.add(scrollPane);
+        panel.add(new TaskListScrollPane(this.table).scrollPane);
     }
 
 }

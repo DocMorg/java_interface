@@ -28,7 +28,6 @@ public class TasksListControls {
     }
 
     protected void withPanel(JPanel panel){
-        JPanel panel1 = new TasksListControls(this.deleteTaskButton).panel;
-        panel.add(panel1);
+        panel.add(new TasksListControls(this.deleteTaskButton).panel);
     }
 }

@@ -36,7 +36,6 @@ public class MainJPanel {
     }
 
     public void withFrame(JFrame window){
-        JPanel panel1 = new MainJPanel(this.storage, this.todoTableModel).panel;
-        window.setContentPane(panel1);
+        window.setContentPane(new MainJPanel(this.storage, this.todoTableModel).panel);
     }
 }

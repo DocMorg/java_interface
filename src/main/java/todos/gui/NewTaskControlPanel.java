@@ -30,8 +30,7 @@ public class NewTaskControlPanel {
     }
 
     protected void withPanel(JPanel panel){
-        JPanel panel1 = new NewTaskControlPanel(this.textField, this.addTaskButton).panel;
-        panel.add(panel1);
+        panel.add(new NewTaskControlPanel(this.textField, this.addTaskButton).panel);
     }
 
 }
