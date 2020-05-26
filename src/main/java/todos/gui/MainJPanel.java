@@ -26,23 +26,16 @@ public class MainJPanel {
         AddTaskButton addTaskButton = new AddTaskButton(storage, textField,
                 new AddListener(storage,textField));
         DeleteTaskButton deleteTaskButton = new DeleteTaskButton(storage);
-        TaskTable taskTable = new TaskTable(todoTableModel, deleteTaskButton);
-
-
-
-        NewTaskControlPanel controlPanel = new NewTaskControlPanel(storage);
-        controlPanel.bind(panel);
-        DeleteTaskButton deleteButton = new DeleteTaskButton(storage);
-        TaskTable table = new TaskTable(todoTableModel, deleteButton);
-        TaskListScrollPane scrollPane = new TaskListScrollPane();
-        table.withPane(scrollPane);
-        scrollPane.bind(panel);
-        TasksListControls listControls = new TasksListControls(storage);
-        listControls.bind(panel);
-        deleteButton.bind(listControls);
+        TaskTable taskTable = new TaskTable(todoTableModel, deleteTaskButton, storage);
+        TasksListControls listControls = new TasksListControls(deleteTaskButton);
+        TaskListScrollPane scrollPane = new TaskListScrollPane(taskTable);
+        NewTaskControlPanel taskControlPanel = new NewTaskControlPanel(textField, addTaskButton);
+        listControls.withPanel(panel);
+        scrollPane.withPanel(panel);
+        taskControlPanel.withPanel(panel);
     }
 
-    public void bind(JFrame window){
+    public void withFrame(JFrame window){
         window.setContentPane(panel);
     }
 }

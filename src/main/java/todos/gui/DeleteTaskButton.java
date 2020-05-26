@@ -11,10 +11,12 @@ public class DeleteTaskButton {
     private final JButton button;
     private final Storage storage;
     private JTable table;
+    private boolean defined;
 
     DeleteTaskButton(Storage storage){
         this.button = new JButton(" Delete");
         this.storage = storage;
+        this.defined = false;
         setUpButton();
     }
 
@@ -23,13 +25,18 @@ public class DeleteTaskButton {
     }
 
     public void withTableAndControls(JPanel listControls) {
-        JButton button1 = new DeleteTaskButton(storage).button;
-        button1.addActionListener(new TableRemoveListener(storage, this.table));
-        listControls.add(button1);
+        if (defined){
+            DeleteTaskButton button1 = new DeleteTaskButton(storage);
+            button1.withTable(this.table);
+            button1.button.addActionListener(new TableRemoveListener(storage, this.table));
+            listControls.add(button1.button);
+        }
+
     }
 
     public void withTable(JTable table){
         this.table = table;
+        this.defined = true;
         new DeleteTaskButton(storage).button.addActionListener(
                 new TableRemoveListener(storage, this.table));
     }

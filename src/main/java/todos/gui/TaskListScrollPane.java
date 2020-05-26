@@ -11,7 +11,7 @@ public class TaskListScrollPane {
         table.withPane(scrollPane);
     }
 
-    protected void bind(JPanel panel){
+    protected void withPanel(JPanel panel){
         panel.add(this.scrollPane);
     }
 

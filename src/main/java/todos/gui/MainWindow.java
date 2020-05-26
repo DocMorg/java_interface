@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
         storage.loadTodo();
 
         MainJPanel mainPanel = new MainJPanel(storage, todoTableModel);
-        mainPanel.bind(this);
+        mainPanel.withFrame(this);
 
         this.setTitle("Todo List");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

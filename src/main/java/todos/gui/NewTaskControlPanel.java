@@ -10,28 +10,26 @@ import static javax.swing.BorderFactory.createEmptyBorder;
 public class NewTaskControlPanel {
 
     private final JPanel panel;
-    private final Storage storage;
+    private final InputJTextField textField;
+    private final AddTaskButton addTaskButton;
 
-    NewTaskControlPanel(Storage storage, InputJTextField textField){
+    NewTaskControlPanel(InputJTextField textField, AddTaskButton addTaskButton){
         this.panel = new JPanel();
-        this.storage = storage;
+        this.textField = textField;
+        this.addTaskButton = addTaskButton;
         setUpPanel();
-        changeUI();
     }
 
     private void setUpPanel(){
+        panel.setBorder(createEmptyBorder(10, 0, 10, 10));
         BorderLayout layout = new BorderLayout();
         layout.setHgap(5);
         panel.setLayout(layout);
-        InputJTextField textField = new InputJTextField();
-        textField.bind(panel);
+        textField.withPanel(panel);
+        addTaskButton.withPanel(panel);
     }
 
-    private void changeUI(){
-        panel.setBorder(createEmptyBorder(10, 0, 10, 10));
-    }
-
-    protected void bind(JPanel panel){
+    protected void withPanel(JPanel panel){
         panel.add(this.panel);
     }
 

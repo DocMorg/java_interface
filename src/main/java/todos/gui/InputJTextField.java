@@ -12,7 +12,7 @@ public class InputJTextField{
     private final JTextField jTextField;
 
     InputJTextField(){
-          jTextField = new JTextField();
+          this.jTextField = new JTextField();
     }
 
     public Todo readText() throws EmptyFieldException {
@@ -31,6 +31,7 @@ public class InputJTextField{
     }
 
     protected void withPanel(JPanel panel){
+        JTextField jTextField = new InputJTextField().jTextField;
         panel.add(jTextField, BorderLayout.CENTER);
     }
 
