@@ -17,6 +17,8 @@ public class NewTaskControlPanel {
         this.panel = new JPanel();
         this.textField = textField;
         this.addTaskButton = addTaskButton;
+        textField.withPanel(panel);
+        addTaskButton.withPanel(panel);
         setUpPanel();
     }
 
@@ -25,8 +27,6 @@ public class NewTaskControlPanel {
         BorderLayout layout = new BorderLayout();
         layout.setHgap(5);
         panel.setLayout(layout);
-        textField.withPanel(panel);
-        addTaskButton.withPanel(panel);
     }
 
     protected void withPanel(JPanel panel){

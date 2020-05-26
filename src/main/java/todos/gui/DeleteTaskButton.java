@@ -4,13 +4,14 @@ import todos.core.Storages.Storage;
 import todos.gui.Listeners.TableRemoveListener;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class DeleteTaskButton {
 
     public static final float CENTER_ALIGNMENT = 0.5F;
     private final JButton button;
     private final Storage storage;
-    private JTable table;
+    private TableRemoveListener listener;
     private boolean defined;
 
     DeleteTaskButton(Storage storage){
@@ -27,17 +28,14 @@ public class DeleteTaskButton {
     public void withTableAndControls(JPanel listControls) {
         if (defined){
             DeleteTaskButton button1 = new DeleteTaskButton(storage);
-            button1.withTable(this.table);
-            button1.button.addActionListener(new TableRemoveListener(storage, this.table));
+            button1.withTable(this.listener);
             listControls.add(button1.button);
         }
-
     }
 
-    public void withTable(JTable table){
-        this.table = table;
+    public void withTable(TableRemoveListener listener){
+        this.listener = listener;
         this.defined = true;
-        new DeleteTaskButton(storage).button.addActionListener(
-                new TableRemoveListener(storage, this.table));
+        this.button.addActionListener(listener);
     }
 }

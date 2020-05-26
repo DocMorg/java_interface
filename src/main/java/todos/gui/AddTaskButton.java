@@ -1,6 +1,5 @@
 package todos.gui;
 
-import todos.core.Exceptions.EmptyFieldException;
 import todos.core.Storages.Storage;
 
 import javax.swing.*;
