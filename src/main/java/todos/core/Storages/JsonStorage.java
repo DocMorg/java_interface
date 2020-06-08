@@ -20,8 +20,8 @@ public class JsonStorage implements Storage {
     public EventsManaged events;
     String[] columnNames = {"Name", "Date"};
 
-    public JsonStorage(String filename) {
-        this.events = new EventsManaged("add", "remove");
+    public JsonStorage(String filename, EventsManaged events) {
+        this.events = events;
         this.jsonFile = new JsonFile(file(filename));
     }
 

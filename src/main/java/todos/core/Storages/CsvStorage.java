@@ -23,8 +23,8 @@ public class CsvStorage implements Storage {
     public EventsManaged events;
     String[] columnNames = {"Name", "Date"};
 
-    public CsvStorage(String filename) {
-        this.events = new EventsManaged("add", "remove");
+    public CsvStorage(String filename, EventsManaged events) {
+        this.events = events;
         this.csvFile = new CsvFile(file(filename));
     }
 

@@ -20,8 +20,8 @@ public class XmlStorage implements Storage {
     public EventsManaged events;
     String[] columnNames = {"Name", "Date"};
 
-    public XmlStorage(String filename) {
-        this.events = new EventsManaged("add", "remove");
+    public XmlStorage(String filename, EventsManaged events) {
+        this.events = events;
         this.xmlFile = new XmlFile(file(filename));
     }
 

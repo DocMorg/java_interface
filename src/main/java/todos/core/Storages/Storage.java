@@ -1,12 +1,12 @@
 package todos.core.Storages;
 
+import todos.core.Observer.EventsManaged;
 import todos.core.Outputs.Output;
 import todos.core.Todos.Todo;
 
 import java.util.List;
 
 public interface Storage {
-
 
     void remove(int i);
     void add(Todo item);
